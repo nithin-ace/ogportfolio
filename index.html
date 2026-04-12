@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>[YOUR NAME] — Data Analyst</title>
+<title>NITHIN S — Data Analyst</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space_Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 /* ============================================================
@@ -322,6 +322,42 @@ footer span{color:var(--redl)}
   .soc-row{grid-template-columns:1fr 1fr}
   .proj-grid{grid-template-columns:1fr}
 }
+.comm-logo{
+  width:50px;
+  height:50px;
+  object-fit:contain;
+  filter: drop-shadow(0 0 8px rgba(192,57,43,0.7));
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* glowing pulse */
+@keyframes glowPulse{
+  0%{
+    transform: scale(1);
+    filter: drop-shadow(0 0 6px rgba(192,57,43,0.6));
+  }
+  50%{
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 18px rgba(231,76,60,1));
+  }
+  100%{
+    transform: scale(1);
+    filter: drop-shadow(0 0 6px rgba(192,57,43,0.6));
+  }
+}
+
+.comm-ring::after{
+  content:'';
+  position:absolute;
+  inset:-10px;
+  border-radius:50%;
+  border:1px solid rgba(192,57,43,0.4);
+  animation: spin 6s linear infinite;
+}
+
+@keyframes spin{
+  to{ transform: rotate(360deg); }
+}
 </style>
 </head>
 <body>
@@ -350,7 +386,7 @@ footer span{color:var(--redl)}
 <!-- NAV -->
 <nav>
   <div class="nav-w">
-    <a href="#hero" class="logo">[YOUR NAME]</a>
+    <a href="#hero" class="logo">NITHIN S</a>
     <ul class="nav-links" id="nl">
       <li><a href="#hero" class="act">Home</a></li>
       <li><a href="#projects">Work</a></li>
@@ -384,7 +420,7 @@ footer span{color:var(--redl)}
     <div class="hero-grid">
       <!-- LEFT TEXT -->
       <div>
-        <div class="hero-hi"><span>👋</span><p>Hi! I'm <strong style="color:var(--white)">[YOUR NAME]</strong>, Welcome to my world!</p></div>
+        <div class="hero-hi"><span>👋</span><p>Hi! I'm <strong style="color:var(--white)">NITHIN S</strong>, Welcome to my world!</p></div>
         <h1 class="hero-name">
           <span class="line1">StuDEnt</span>
           <span class="line2">&amp; AnAlYsT</span>
@@ -418,7 +454,7 @@ footer span{color:var(--redl)}
             <!--
               TO ADD YOUR PHOTO:
               Replace the div below with:
-              <img src="your-photo.jpg" alt="[YOUR NAME]"/>
+              <img src="your-photo.jpg" alt="NITHIN S"/>
             -->
             <div class="ph-placeholder">
               <div class="ph-avatar">🕷</div>
@@ -427,7 +463,7 @@ footer span{color:var(--redl)}
           </div>
           <div class="photo-name-tag">
             <span>DATA ANALYST</span>
-            <strong>[YOUR NAME]</strong>
+            <strong>NITHIN S</strong>
           </div>
         </div>
         <!-- floating stat badges -->
@@ -493,19 +529,19 @@ footer span{color:var(--redl)}
     </div>
     <div class="comm-grid">
       <div class="comm-card">
-        <div class="comm-ring"><div class="comm-initial">[C]</div></div>
-        <div class="comm-name">[COMMUNITY NAME]</div>
-        <div class="comm-role-tag">Member &amp; Ambassador</div>
-        <p class="comm-card-desc">A passionate tech community of builders and learners creating real impact — one project at a time.</p>
+        <div class="comm-ring">
+  <img src="c:\Users\Nithin S\Downloads\Podevs logo with gradient symbol.png" class="comm-logo" alt="PODEVS Logo"></div>
+        <div class="comm-name">PODEVS</div>
+        <div class="comm-role-tag">Member &amp; Strategist</div>
+        <p class="comm-card-desc">A passionate EdTech community of builders and learners creating real impact — one project at a time.</p>
       </div>
       <div class="comm-right">
         <div class="sec-eyebrow">// My Role</div>
-        <h3>What [COMMUNITY] Means to Me</h3>
-        <p>Being part of [COMMUNITY] isn't a title — it's a mindset shift. A circle of people who believe that anyone can build something great, step by step, from scratch.</p>
-        <p>As an ambassador, I represent the community, help onboard new members, and bring the spirit of collaboration to everything I do.</p>
+        <h3>What PODEVS COMMUNITY Means to Me</h3>
+        <p>Being part of PODEVS COMMUNITY isn't a title — it's a mindset. A circle of people who believe that anyone can build something great, step by step, from scratch.</p>
+        <p>As a Strategist, I build innovative EdTech solutions and turn ideas into high-impact, scalable strategies, aligning execution with market opportunities.</p>
         <ul class="comm-perks">
           <li>Active member in community events and initiatives</li>
-          <li>Ambassador — mentoring and welcoming new members</li>
           <li>Sharing knowledge through talks and online content</li>
           <li>Networking with developers, designers and data folks</li>
         </ul>
@@ -540,7 +576,7 @@ footer span{color:var(--redl)}
     <div class="term-box">
       <div class="term-top">
         <div class="tdot r"></div><div class="tdot y"></div><div class="tdot g"></div>
-        <span class="term-title">resume.txt — [YOUR NAME]</span>
+        <span class="term-title">resume.txt — NITHIN S</span>
       </div>
       <div class="term-body">
         <div class="term-col">
@@ -658,7 +694,7 @@ footer span{color:var(--redl)}
 </section>
 
 <footer>
-  <p>// <span>[YOUR NAME]</span> · Data Analyst Portfolio · Built with ❤️ · <span id="yr"></span></p>
+  <p>// <span>NITHIN S</span> · Data Analyst Portfolio · Built with ❤️ · <span id="yr"></span></p>
 </footer>
 
 <!-- ======================== JS ======================== -->
