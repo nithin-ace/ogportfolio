@@ -165,6 +165,48 @@ nav{position:fixed;top:30px;left:0;right:0;z-index:200;background:rgba(8,8,16,.9
 .pc-use-label{font-family:var(--r);font-size:.52rem;letter-spacing:.18em;color:var(--bluel);text-transform:uppercase;margin-bottom:.4rem}
 .pc-use-text{font-size:.78rem;color:var(--muted);line-height:1.7}
 
+/* ---- PROJECT HOVER OVERLAY ---- */
+.pc{position:relative}
+.pc-overlay{
+  position:absolute;inset:0;
+  background:rgba(8,8,16,.92);
+  backdrop-filter:blur(4px);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:.8rem;padding:1.4rem;
+  opacity:0;
+  transition:opacity .28s ease;
+  z-index:10;
+}
+.pc:hover .pc-overlay{opacity:1}
+
+.pc-preview{
+  width:100%;height:110px;
+  object-fit:cover;border:1px solid var(--border);
+  border-radius:2px;margin-bottom:.2rem;
+  background:linear-gradient(135deg,#1a0a14,#0a0a20);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);font-size:.65rem;font-family:var(--r);
+  letter-spacing:.12em;text-align:center;
+  overflow:hidden;
+}
+.pc-preview img{width:100%;height:100%;object-fit:cover}
+
+.pc-overlay-btns{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center}
+
+.ov-btn{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.55rem 1rem;
+  font-family:var(--r);font-size:.55rem;
+  letter-spacing:.12em;text-transform:uppercase;
+  border:none;cursor:pointer;
+  transition:all .2s ease;text-decoration:none;
+}
+.ov-btn-gh{background:var(--card);color:var(--white);border:1px solid var(--border)}
+.ov-btn-gh:hover{border-color:var(--redl);color:var(--redl)}
+.ov-btn-cs{background:var(--red);color:#fff}
+.ov-btn-cs:hover{background:var(--redl);transform:translateY(-1px)}
+
 /* ============================================================
    SKILLS
    ============================================================ */
@@ -358,6 +400,47 @@ footer span{color:var(--redl)}
 @keyframes spin{
   to{ transform: rotate(360deg); }
 }
+
+body{
+  cursor: none;
+}
+
+.cursor-glow{
+  width: 120px;
+  height: 120px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+
+  background: radial-gradient(circle, rgba(255,0,60,0.6) 0%, rgba(255,0,60,0.2) 40%, transparent 70%);
+  filter: blur(20px);
+  transform: translate(-50%, -50%);
+}
+* {
+  cursor: none !important;
+}
+
+body{
+  cursor: none;
+}
+
+.cursor-dot{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background: red;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+
+  /* small glow */
+  box-shadow: 0 0 8px rgba(255,0,0,0.4);
+}
 </style>
 </head>
 <body>
@@ -371,13 +454,11 @@ footer span{color:var(--redl)}
     <span>🕷 Proud Member of Podevs Community</span>
     <span>// Data Analyst</span>
     <span>// Student</span>
-    <span>// YouTube Creator</span>
     <span>// Open to Opportunities</span>
     <span>// Chennai, India</span>
     <span>🕷 Proud Member of Podevs Community</span>
     <span>// Data Analyst</span>
     <span>// Student</span>
-    <span>// YouTube Creator</span>
     <span>// Open to Opportunities</span>
     <span>// Chennai, India</span>
   </div>
@@ -388,13 +469,13 @@ footer span{color:var(--redl)}
   <div class="nav-w">
     <a href="#hero" class="logo">NITHIN S</a>
     <ul class="nav-links" id="nl">
-      <li><a href="#hero" class="act">Home</a></li>
+      <li><a href="#hero" class="act">Overview</a></li>
       <li><a href="#projects">Work</a></li>
-      <li><a href="#skills">Skills</a></li>
+      <li><a href="#skills">Analytics Stack</a></li>
       <li><a href="#community">Community</a></li>
-      <li><a href="#hobbies">Hobbies</a></li>
+      <li><a href="#hobbies">Beyond</a></li>
       <li><a href="#resume">Resume</a></li>
-      <li><a href="#contact" class="nav-cta">Book Me</a></li>
+      <li><a href="#contact" class="nav-cta">Connect</a></li>
     </ul>
     <div class="hb" id="hb"><span></span><span></span><span></span></div>
   </div>
@@ -456,7 +537,7 @@ footer span{color:var(--redl)}
               Replace the div below with:
               <img src="your-photo.jpg" alt="NITHIN S"/>
             -->
-            <img src="c:\Users\Nithin S\Downloads\hgvgvugu.jpg" alt="NITHIN S"/>
+            <img src="hgvgvugu.jpg" alt="NITHIN S"/>
           </div>
           <div class="photo-name-tag">
             <span>DATA ANALYST</span>
@@ -500,12 +581,12 @@ footer span{color:var(--redl)}
   <div class="wrap">
     <div class="skills-intro">
       <div class="skills-left">
-        <div class="sec-eyebrow">// Technical Arsenal</div>
+        <div class="sec-eyebrow">// // Analytics Stack</div>
         <h2 class="sec-big">My <span class="r">SkiLLs</span></h2>
         <div class="sec-bar"></div>
-        <p class="sec-sub">The weapons I've forged studying data every day. Carved as a blade — still sharpening.</p>
+        <p class="sec-sub">Built from raw data and discipline — refined with every insight.</p>
         <div class="soft-wrap">
-          <div class="sec-eyebrow" style="margin-top:2.5rem">// Active Player Skills</div>
+          <div class="sec-eyebrow" style="margin-top:2.5rem">// // Analytical Strengths</div>
           <div class="soft-grid" id="sg"></div>
         </div>
       </div>
@@ -527,7 +608,7 @@ footer span{color:var(--redl)}
     <div class="comm-grid">
       <div class="comm-card">
         <div class="comm-ring">
-  <img src="c:\Users\Nithin S\Downloads\Podevs logo with gradient symbol.png" class="comm-logo" alt="PODEVS Logo"></div>
+  <img src="Podevs logo with gradient symbol.png" class="comm-logo" alt="PODEVS Logo"></div>
         <div class="comm-name">PODEVS</div>
         <div class="comm-role-tag">Member &amp; Strategist</div>
         <p class="comm-card-desc">A passionate EdTech community of builders and learners creating real impact — one project at a time.</p>
@@ -556,7 +637,7 @@ footer span{color:var(--redl)}
         <h2 class="sec-big">My <span class="r">HoBBies</span></h2>
         <div class="sec-bar"></div>
       </div>
-      <p class="sec-sub">Passions that shape who I am — and fuel how I think.</p>
+      <p class="sec-sub">Passions that drive my thinking, creativity, and growth.</p>
     </div>
     <div class="hob-grid" id="hg"></div>
   </div>
@@ -755,48 +836,72 @@ document.querySelectorAll('[data-count]').forEach(countUp);
 const projects = [
   {
     num:'01', title:'Sales Forecasting Dashboard',
+    github:'https://github.com/YourHandle/sales-forecast',
+    casestudy:'https://yoursite.com/case-study-1',
+    preview:'images/sales-dashboard.png',
     desc:'Predicts monthly sales using historical data, seasonal trends, and moving averages visualized in an interactive Tableau dashboard.',
     tags:[['Python','r'],['Tableau','b'],['Pandas','r'],['Excel','b']],
     usecase:'A retail business struggling with overstock and stockouts needed a way to predict next month\'s sales. This dashboard gives them a 30-day forecast so they can order inventory confidently.'
   },
   {
     num:'02', title:'Customer Churn Analysis',
+    github:'https://github.com/YourHandle/sales-forecast',
+    casestudy:'https://yoursite.com/case-study-1',
+    preview:'images/sales-dashboard.png',
     desc:'Identifies which customers are likely to stop using a service — using behavioral patterns, engagement drops, and SQL cohort analysis.',
     tags:[['SQL','r'],['Python','b'],['Power BI','r'],['Pandas','b']],
     usecase:'A subscription company losing users with no early warning. This analysis flags at-risk customers 3 weeks before they churn, giving the team time to offer retention incentives.'
   },
   {
     num:'03', title:'E-commerce Funnel Analysis',
+    github:'https://github.com/YourHandle/sales-forecast',
+    casestudy:'https://yoursite.com/case-study-1',
+    preview:'images/sales-dashboard.png',
     desc:'Maps the full customer journey from landing page to checkout, identifying where users drop off and why, using GA4 event data in BigQuery.',
     tags:[['BigQuery','b'],['GA4','r'],['SQL','r'],['Looker','b']],
     usecase:'An online store with a high cart abandonment rate. This analysis revealed a broken promo code field at checkout — a 5-minute fix that improved conversions by 28%.'
   },
   {
     num:'04', title:'HR Attrition Dashboard',
+    github:'https://github.com/YourHandle/sales-forecast',
+    casestudy:'https://yoursite.com/case-study-1',
+    preview:'images/sales-dashboard.png',
     desc:'Analyzes employee attrition patterns across departments, tenure, salary bands, and manager ratings to surface root causes of turnover.',
     tags:[['Power BI','r'],['SQL','b'],['Excel','r'],['Python','b']],
     usecase:'An HR team spending hours on manual exit interview data. This dashboard surfaced that 70% of attrition happened in the first 18 months — pointing directly to onboarding gaps.'
   },
   {
     num:'05', title:'Social Media Sentiment Tracker',
+    github:'https://github.com/YourHandle/sales-forecast',
+    casestudy:'https://yoursite.com/case-study-1',
+    preview:'images/sales-dashboard.png',
     desc:'Processes public Twitter/X data through NLP sentiment scoring to track brand perception in real-time across a rolling 7-day window.',
     tags:[['Python','r'],['NLP','b'],['VADER','r'],['Plotly','b']],
     usecase:'A brand team flying blind during campaigns. This tracker gave them same-day visibility into public sentiment shifts so they could respond before negativity snowballed.'
   },
   {
     num:'06', title:'Financial Expense Analyzer',
+    github:'https://github.com/YourHandle/sales-forecast',
+    casestudy:'https://yoursite.com/case-study-1',
+    preview:'images/sales-dashboard.png',
     desc:'Categorizes and visualizes personal or business expenses from raw bank CSV exports — surfacing spending patterns, anomalies, and monthly trends.',
     tags:[['Python','r'],['Pandas','b'],['Matplotlib','r'],['Excel','b']],
     usecase:'A student who had no idea where their money was going every month. This tool auto-categorized 6 months of transactions and revealed ₹4,000/month in unnoticed subscriptions.'
   },
   {
     num:'07', title:'Real Estate Price Explorer',
+    github:'https://github.com/YourHandle/sales-forecast',
+    casestudy:'https://yoursite.com/case-study-1',
+    preview:'images/sales-dashboard.png',
     desc:'Explores property price trends across localities using public datasets — comparing price-per-sqft, proximity scores, and year-on-year growth.',
     tags:[['Python','r'],['Seaborn','b'],['Pandas','r'],['Tableau','b']],
     usecase:'A first-time home buyer overwhelmed by data from multiple portals. This explorer consolidated it into a single view showing which localities gave the best value in their budget.'
   },
   {
     num:'08', title:'YouTube Channel Analytics',
+    github:'https://github.com/YourHandle/sales-forecast',
+    casestudy:'https://yoursite.com/case-study-1',
+    preview:'images/sales-dashboard.png',
     desc:'Pulls YouTube Data API metrics into a Python pipeline — tracking watch time, CTR trends, audience retention, and top-performing content themes.',
     tags:[['Python','r'],['YouTube API','b'],['Pandas','r'],['Plotly','b']],
     usecase:'My own YouTube channel. I built this to understand which video topics drove the most subscribers, which thumbnails had better CTR, and when my audience was most active.'
@@ -807,6 +912,22 @@ projects.forEach(p=>{
   const d=document.createElement('div');
   d.className='pc';
   d.innerHTML=`
+    <div class="pc-overlay">
+      <div class="pc-preview">
+        ${p.preview
+          ? `<img src="${p.preview}" alt="${p.title} preview"/>`
+          : `// DASHBOARD<br/>PREVIEW`}
+      </div>
+      <div class="pc-overlay-btns">
+        <a href="${p.github||'#'}" target="_blank" class="ov-btn ov-btn-gh">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          GitHub Repo
+        </a>
+        <a href="${p.casestudy||'#'}" target="_blank" class="ov-btn ov-btn-cs">
+          📄 Case Study
+        </a>
+      </div>
+    </div>
     <div class="pc-top">
       <div class="pc-num">// ${p.num}</div>
       <div class="pc-title">${p.title}</div>
@@ -847,7 +968,7 @@ new IntersectionObserver(entries=>{
 },{threshold:.15}).observe(document.getElementById('skills'));
 
 /* ---- SOFT SKILLS ---- */
-const softs=['Dedicated Learner','Problem Solver','Team Player','Fast Adaptor','Creative Thinker','Strong Communicator','Open to Feedback','Detail-Oriented','Self-Driven','Curious Mind'];
+const softs=['Data-Driven Decision Making','Exploratory Data Analysis (EDA)','Analytical Mindset','Strategic Thinking ','Attention to Detail','Data Storytelling ','Pattern Recognition','Critical Thinking','Ownership & Initiative'];
 const sg=document.getElementById('sg');
 softs.forEach(s=>{
   const sp=document.createElement('div');
@@ -858,20 +979,68 @@ softs.forEach(s=>{
 
 /* ---- HOBBIES ---- */
 const hobbies=[
-  {icon:'💻',name:'Coding',desc:'Turning ideas into tools. Every project teaches me something new.'},
-  {icon:'📊',name:'Data Analysis',desc:'Finding patterns in messy data is genuinely exciting — like solving a mystery.'},
-  {icon:'🎵',name:'Music',desc:'My coding sessions always have a soundtrack. Music keeps me in the zone.'},
-  {icon:'📚',name:'Reading',desc:'Atomic Habits and Deep Work shaped how I study and grow.'},
-  {icon:'📺',name:'YouTube',desc:'Teaching data skills to students — creating content that actually helps.'},
-  {icon:'🌌',name:'Anime',desc:"Dr. Stone's scientific curiosity is genuinely inspiring. Stories shape thinking."},
-  {icon:'🏸',name:'Badminton',desc:'Active mind needs an active body. Great for focus and stress relief.'},
-  {icon:'🌐',name:'Community',desc:'Learning alongside peers, sharing knowledge, and growing together.'},
+  {icon:'📊',name:'Data Exploration',desc:'Turning Exploring data to uncover patterns, insights, and hidden stories.'},
+  {icon:'🔍',name:'Scientific Research',desc:'Digging deep into ideas and trends to build clarity and understanding.'},
+  {icon:'🎵',name:'Music',desc:'Music that fuels focus, creativity, and long hours of deep work.'},
+  {icon:'🎓',name:'Teaching',desc:'Breaking down complex ideas to make learning simple and accessible.'},
+  {icon:'🌌',name:'Stargazing',desc:'Finding perspective and curiosity in the vastness beyond.'},
+  {icon:'🦸',name:'Marvel',desc:"Inspired by storytelling, strategy, and larger-than-life thinking."},
+  {icon:'🥋',name:'Martial Arts',desc:'Building discipline, focus, and mental resilience through practice.'},
+  {icon:'📈',name:'Content & Strategy',desc:'Creating meaningful content and shaping ideas into impactful strategies.'},
 ];
 const hg=document.getElementById('hg');
 hobbies.forEach(h=>{
   const d=document.createElement('div'); d.className='hob-card';
   d.innerHTML=`<span class="hob-icon">${h.icon}</span><div class="hob-name">${h.name}</div><div class="hob-desc">${h.desc}</div>`;
   hg.appendChild(d);
+});
+</script>
+<div class="cursor-glow">🕷️</div>
+
+
+<script>
+const glow = document.querySelector(".cursor-glow");
+
+let x = 0, y = 0;
+let mouseX = 0, mouseY = 0;
+
+document.addEventListener("mousemove", (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+function animate(){
+  x += (mouseX - x) * 0.1;
+  y += (mouseY - y) * 0.1;
+
+  glow.style.left = x + "px";
+  glow.style.top = y + "px";
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+<script>
+document.querySelectorAll("a, button").forEach(el => {
+  el.addEventListener("mouseenter", () => {
+    glow.style.transform = "translate(-50%, -50%) scale(1.5)";
+  });
+
+  el.addEventListener("mouseleave", () => {
+    glow.style.transform = "translate(-50%, -50%) scale(1)";
+  });
+});
+</script>
+
+<div class="cursor-dot"></div>
+
+<script>
+const dot = document.querySelector(".cursor-dot");
+
+document.addEventListener("mousemove", (e) => {
+  dot.style.left = e.clientX + "px";
+  dot.style.top = e.clientY + "px";
 });
 </script>
 </body>
