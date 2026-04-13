@@ -442,10 +442,110 @@ body{
   /* small glow */
   box-shadow: 0 0 8px rgba(255,0,0,0.4);
 }
+
+/* ============================================================
+   PRE-LOADER
+   ============================================================ */
+#preloader{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:2rem;
+  transition:opacity .6s ease, visibility .6s ease;
+}
+#preloader.hidden{opacity:0;visibility:hidden}
+
+.pre-web{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  opacity:.08;pointer-events:none;
+}
+
+.pre-logo{
+  font-family:var(--r);font-size:clamp(2rem,6vw,3.5rem);
+  font-weight:900;letter-spacing:.1em;
+  background:linear-gradient(90deg,var(--redl),var(--bluel));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:logopulse 1.2s ease-in-out infinite;
+}
+@keyframes logopulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+.pre-tagline{
+  font-family:var(--r);font-size:.6rem;letter-spacing:.3em;
+  color:var(--muted);text-transform:uppercase;
+}
+
+.pre-bar-wrap{
+  width:220px;height:2px;
+  background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;
+}
+.pre-bar-fill{
+  height:100%;width:0;
+  background:linear-gradient(90deg,var(--red),var(--bluel));
+  border-radius:2px;
+  transition:width .05s linear;
+}
+
+.pre-pct{
+  font-family:var(--r);font-size:.55rem;letter-spacing:.2em;color:var(--redl);
+  margin-top:-.8rem;
+}
+
+.pre-spider{
+  font-size:2.5rem;
+  animation:spiderdrop 1s ease-in-out infinite alternate;
+}
+@keyframes spiderdrop{
+  from{transform:translateY(-8px)}
+  to{transform:translateY(8px)}
+}
+
+/* ============================================================
+   PAGE TRANSITION  (post-loader — section fade-in)
+   ============================================================ */
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0);
+}
 </style>
 </head>
 <body>
+<!-- ===== PRE-LOADER ===== -->
+<div id="preloader">
+  <!-- faint spiderweb bg -->
+  <div class="pre-web">
+    <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="rgba(192,57,43,1)" stroke-width="0.8">
+        <circle cx="250" cy="250" r="50"/><circle cx="250" cy="250" r="100"/>
+        <circle cx="250" cy="250" r="150"/><circle cx="250" cy="250" r="200"/>
+        <circle cx="250" cy="250" r="240"/>
+        <line x1="250" y1="10" x2="250" y2="490"/>
+        <line x1="10" y1="250" x2="490" y2="250"/>
+        <line x1="74" y1="74" x2="426" y2="426"/>
+        <line x1="426" y1="74" x2="74" y2="426"/>
+        <line x1="250" y1="10" x2="74" y2="426"/>
+        <line x1="250" y1="10" x2="426" y2="426"/>
+        <line x1="10" y1="250" x2="426" y2="74"/>
+        <line x1="10" y1="250" x2="426" y2="426"/>
+      </g>
+    </svg>
+  </div>
 
+  <div class="pre-spider">🕷️</div>
+  <div class="pre-logo">NITHIN S</div>
+  <div class="pre-tagline">// Initializing portfolio...</div>
+  <div class="pre-bar-wrap">
+    <div class="pre-bar-fill" id="preBar"></div>
+  </div>
+  <div class="pre-pct" id="prePct">0%</div>
+</div>
 <!-- BG CANVAS -->
 <canvas id="bgc"></canvas>
 
@@ -1079,6 +1179,63 @@ document.addEventListener("mousemove", (e) => {
   dot.style.left = e.clientX + "px";
   dot.style.top = e.clientY + "px";
 });
+</script>
+<script>
+/* ===== PRE-LOADER ===== */
+(function(){
+  const bar   = document.getElementById('preBar');
+  const pct   = document.getElementById('prePct');
+  const loader= document.getElementById('preloader');
+  let progress= 0;
+
+  const interval = setInterval(()=>{
+    // fast at first, slow near 100 for dramatic effect
+    const increment = progress < 70 ? Math.random()*3+1 : Math.random()*1.5+0.5;
+    progress = Math.min(progress + increment, 98);
+    bar.style.width = progress + '%';
+    pct.textContent = Math.floor(progress) + '%';
+  }, 1000);
+
+  // when page is actually ready, finish to 100 and hide
+  window.addEventListener('load', ()=>{
+    clearInterval(interval);
+    bar.style.transition = 'width .4s ease';
+    bar.style.width = '100%';
+    pct.textContent = '100%';
+    setTimeout(()=>{
+      loader.classList.add('hidden');
+      // trigger section reveal after preloader exits
+      revealSections();
+    }, 1000);
+  });
+})();
+
+/* ===== POST-LOADER: section fade-in ===== */
+function revealSections(){
+  // add .reveal class to all major sections
+  document.querySelectorAll('section, nav, footer').forEach(el=>{
+    el.classList.add('reveal');
+  });
+
+  // staggered reveal using IntersectionObserver
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:0.08});
+
+  // hero + nav reveal immediately (they're already in view)
+  document.querySelectorAll('nav, #hero').forEach((el,i)=>{
+    setTimeout(()=>el.classList.add('visible'), i*150);
+  });
+
+  // all other sections observed
+  document.querySelectorAll('section:not(#hero)').forEach(el=>io.observe(el));
+  document.querySelector('footer')&&io.observe(document.querySelector('footer'));
+}
 </script>
 </body>
 </html>
