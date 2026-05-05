@@ -1,0 +1,1576 @@
+< !DOCTYPE html><html lang="en" data-theme="dark"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>PODEVS — The Smile of Education</title><link rel="preconnect" href="https://fonts.googleapis.com" /><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" /><style> :root {
+    --bg: #000000;
+    --bg2: #0a0a0a;
+    --card: #111111;
+    --card2: #1a1a1a;
+    --border: rgba(255, 255, 255, 0.08);
+    --text: #ffffff;
+    --muted: #b3b3b3;
+    --subtle: #666666;
+    --orange: #FF8A00;
+    --gold: #FFC247;
+    --grad: linear-gradient(135deg, #FF8A00, #FFC247);
+    --grad-r: linear-gradient(135deg, #FFC247, #FF8A00);
+    --glow: 0 0 40px rgba(255, 138, 0, 0.25);
+    --glow-sm: 0 0 16px rgba(255, 138, 0, 0.18);
+    --radius: 20px;
+    --radius-sm: 12px;
+    --glass: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+    --nav-h: 72px;
+    --trans: 0.35s cubic-bezier(.4, 0, .2, 1);
+}
+
+[data-theme="light"] {
+    --bg: #ffffff;
+    --bg2: #f7f7f7;
+    --card: #ffffff;
+    --card2: #f0f0f0;
+    --border: rgba(0, 0, 0, 0.08);
+    --text: #111111;
+    --muted: #555555;
+    --subtle: #999999;
+    --glow: 0 4px 24px rgba(255, 138, 0, 0.15);
+    --glow-sm: 0 2px 12px rgba(255, 138, 0, 0.12);
+    --glass: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.08);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    transition: background var(--trans), color var(--trans);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--orange);
+    border-radius: 99px;
+}
+
+/* ─── UTILS ─── */
+.grad-text {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.grad-border {
+    position: relative;
+    border-radius: var(--radius);
+}
+
+.grad-border::before {
+    content: '';
+    position: absolute;
+    inset: -1.5px;
+    border-radius: calc(var(--radius) + 2px);
+    background: var(--grad);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity var(--trans);
+}
+
+.grad-border:hover::before {
+    opacity: 1;
+}
+
+.glass-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: var(--radius);
+    transition: transform var(--trans), box-shadow var(--trans), border-color var(--trans);
+}
+
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--glow);
+    border-color: rgba(255, 138, 0, 0.3);
+}
+
+.section {
+    padding: 100px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--orange);
+}
+
+.section-title {
+    font-family: var(--font-head);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 16px;
+}
+
+.section-sub {
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 560px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 99px;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    transition: all var(--trans);
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--grad);
+    color: #000;
+    box-shadow: 0 0 30px rgba(255, 138, 0, 0.3);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 50px rgba(255, 138, 0, 0.55);
+    transform: translateY(-2px) scale(1.02);
+}
+
+.btn-outline {
+    border: 1.5px solid var(--glass-border);
+    color: var(--text);
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+}
+
+.btn-outline:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+    box-shadow: var(--glow-sm);
+    transform: translateY(-2px);
+}
+
+.tag {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 99px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    border: 1px solid rgba(255, 138, 0, 0.3);
+    color: var(--orange);
+    background: rgba(255, 138, 0, 0.08);
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ─── PAGE ROUTING ─── */
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* ─── NOISE OVERLAY ─── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+}
+
+/* ─── NAVBAR ─── */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    background: rgba(0, 0, 0, 0.7);
+    border-bottom: 1px solid var(--border);
+    transition: background var(--trans);
+}
+
+[data-theme="light"] nav {
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.logo-mark {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--grad);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 18px;
+    color: #000;
+    box-shadow: 0 0 20px rgba(255, 138, 0, 0.4);
+}
+
+.logo-text {
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+}
+
+.nav-links a {
+    display: block;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--muted);
+    transition: color var(--trans), background var(--trans);
+    cursor: pointer;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--text);
+    background: var(--glass);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--glass);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all var(--trans);
+    cursor: pointer;
+}
+
+.theme-toggle:hover {
+    border-color: var(--orange);
+    box-shadow: var(--glow-sm);
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    width: 24px;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.hamburger span {
+    display: block;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: all var(--trans);
+}
+
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    z-index: 999;
+    padding: 16px 24px;
+    flex-direction: column;
+    gap: 4px;
+    backdrop-filter: blur(20px);
+}
+
+.mobile-menu.open {
+    display: flex;
+}
+
+.mobile-menu a {
+    display: block;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: var(--muted);
+    transition: all var(--trans);
+    cursor: pointer;
+}
+
+.mobile-menu a:hover {
+    color: var(--text);
+    background: var(--glass);
+}
+
+@media (max-width: 860px) {
+    .nav-links {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-join {
+        display: none;
+    }
+}
+
+/* ─── HERO ─── */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding-top: var(--nav-h);
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.18;
+}
+
+.hero-orb-1 {
+    width: 600px;
+    height: 600px;
+    background: #FF8A00;
+    top: -200px;
+    right: -100px;
+}
+
+.hero-orb-2 {
+    width: 400px;
+    height: 400px;
+    background: #FFC247;
+    bottom: -100px;
+    left: -100px;
+}
+
+.hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 820px;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 99px;
+    background: rgba(255, 138, 0, 0.1);
+    border: 1px solid rgba(255, 138, 0, 0.25);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--orange);
+    margin-bottom: 28px;
+    letter-spacing: 0.05em;
+}
+
+.hero-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--orange);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.4);
+    }
+}
+
+.hero-title {
+    font-family: var(--font-head);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+}
+
+.hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    max-width: 560px;
+}
+
+.hero-btns {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 60px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-num {
+    font-family: var(--font-head);
+    font-size: 2rem;
+    font-weight: 800;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 0.82rem;
+    color: var(--muted);
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--subtle);
+    letter-spacing: 0.15em;
+    animation: float 3s ease-in-out infinite;
+}
+
+.scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, var(--orange));
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(8px);
+    }
+}
+
+/* ─── PILLARS ─── */
+.pillar-card {
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.pillar-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--grad);
+    opacity: 0;
+    transition: opacity var(--trans);
+}
+
+.pillar-card:hover::after {
+    opacity: 1;
+}
+
+.pillar-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: rgba(255, 138, 0, 0.1);
+    border: 1px solid rgba(255, 138, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 24px;
+}
+
+.pillar-title {
+    font-family: var(--font-head);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.pillar-text {
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+/* ─── EVENT CARDS ─── */
+.event-card {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.event-date-badge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: rgba(255, 138, 0, 0.1);
+    border: 1px solid rgba(255, 138, 0, 0.2);
+    justify-content: center;
+}
+
+.event-date-badge .day {
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 1.2rem;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+}
+
+.event-date-badge .mo {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--orange);
+    letter-spacing: 0.05em;
+}
+
+.event-title {
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.event-meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.event-meta span {
+    font-size: 0.82rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* ─── VIDEO GRID ─── */
+.video-thumb {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    background: var(--card2);
+    cursor: pointer;
+    transition: transform var(--trans), box-shadow var(--trans);
+}
+
+.video-thumb:hover {
+    transform: scale(1.02);
+    box-shadow: var(--glow);
+}
+
+.video-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.35);
+    transition: background var(--trans);
+}
+
+.video-thumb:hover .video-play {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.play-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--grad);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px rgba(255, 138, 0, 0.5);
+}
+
+.play-btn svg {
+    margin-left: 4px;
+}
+
+.video-info {
+    padding: 16px 0;
+}
+
+.video-title {
+    font-weight: 500;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+}
+
+.video-views {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+/* ─── TEAM CARDS ─── */
+.team-card {
+    padding: 32px 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--grad);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: #000;
+    box-shadow: 0 0 30px rgba(255, 138, 0, 0.35);
+    position: relative;
+}
+
+.avatar-ring {
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: var(--grad);
+    z-index: -1;
+    opacity: 0.4;
+}
+
+.team-name {
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.team-role {
+    font-size: 0.85rem;
+    color: var(--orange);
+    font-family: var(--font-mono);
+}
+
+.team-bio {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.social-links {
+    display: flex;
+    gap: 10px;
+}
+
+.social-link {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all var(--trans);
+    color: var(--muted);
+}
+
+.social-link:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+    background: rgba(255, 138, 0, 0.08);
+}
+
+/* ─── SERVICES ─── */
+.service-card {
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-price {
+    font-family: var(--font-head);
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 16px 0 8px;
+}
+
+.service-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0 28px;
+}
+
+.service-features li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.check {
+    color: var(--orange);
+    font-size: 14px;
+}
+
+/* ─── BLOG ─── */
+.post-card {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.post-date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--subtle);
+    letter-spacing: 0.08em;
+}
+
+.post-title {
+    font-family: var(--font-head);
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.post-excerpt {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.post-read {
+    font-size: 0.85rem;
+    color: var(--orange);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* ─── FORMS ─── */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+.form-input {
+    width: 100%;
+    padding: 13px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--glass);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: border-color var(--trans), box-shadow var(--trans);
+    outline: none;
+    backdrop-filter: blur(10px);
+}
+
+.form-input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(255, 138, 0, 0.12);
+}
+
+.form-input::placeholder {
+    color: var(--subtle);
+}
+
+textarea.form-input {
+    min-height: 120px;
+    resize: vertical;
+}
+
+select.form-input option {
+    background: #1a1a1a;
+    color: var(--text);
+}
+
+/* ─── FOOTER ─── */
+footer {
+    border-top: 1px solid var(--border);
+    padding: 60px 0 32px;
+    position: relative;
+}
+
+.footer-inner {
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr);
+    gap: 48px;
+    margin-bottom: 48px;
+}
+
+.footer-brand p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin: 16px 0 24px;
+}
+
+.footer-col h4 {
+    font-family: var(--font-head);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+.footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-col ul li a {
+    font-size: 0.88rem;
+    color: var(--muted);
+    transition: color var(--trans);
+    cursor: pointer;
+}
+
+.footer-col ul li a:hover {
+    color: var(--orange);
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.footer-bottom p {
+    font-size: 0.82rem;
+    color: var(--subtle);
+}
+
+.footer-social {
+    display: flex;
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+    .footer-inner {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-brand {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-inner {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ─── PAGE HERO ─── */
+.page-hero {
+    padding: calc(var(--nav-h) + 60px) 0 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-hero-bg {
+    position: absolute;
+    top: -100px;
+    right: -150px;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: rgba(255, 138, 0, 0.07);
+    filter: blur(80px);
+    z-index: 0;
+}
+
+.page-hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* ─── CTA SECTION ─── */
+.cta-section {
+    margin: 0 24px 80px;
+    border-radius: 28px;
+    padding: 72px 48px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    background: var(--card);
+    border: 1px solid var(--border);
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 29px;
+    background: var(--grad);
+    z-index: -1;
+    opacity: 0.15;
+}
+
+.cta-orb {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 138, 0, 0.15);
+    filter: blur(60px);
+}
+
+.cta-orb-1 {
+    top: -100px;
+    left: -50px;
+}
+
+.cta-orb-2 {
+    bottom: -100px;
+    right: -50px;
+    background: rgba(255, 194, 71, 0.12);
+}
+
+.cta-content {
+    position: relative;
+    z-index: 1;
+}
+
+.cta-title {
+    font-family: var(--font-head);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    margin-bottom: 16px;
+}
+
+.cta-sub {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 36px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ─── ABOUT ─── */
+.mission-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+}
+
+.mission-card {
+    padding: 48px 40px;
+    background: var(--card);
+}
+
+.mission-card:first-child {
+    border-radius: var(--radius) 0 0 0;
+}
+
+.mission-card:nth-child(2) {
+    border-radius: 0 var(--radius) 0 0;
+}
+
+.mission-card:nth-child(3) {
+    border-radius: 0 0 0 var(--radius);
+}
+
+.mission-card:last-child {
+    border-radius: 0 0 var(--radius) 0;
+}
+
+@media (max-width: 640px) {
+    .mission-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mission-card {
+        border-radius: var(--radius-sm) !important;
+    }
+}
+
+.mission-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.mission-title {
+    font-family: var(--font-head);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.mission-text {
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+/* ─── ANIMATIONS ─── */
+.fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-up-delay-1 {
+    transition-delay: 0.1s;
+}
+
+.fade-up-delay-2 {
+    transition-delay: 0.2s;
+}
+
+.fade-up-delay-3 {
+    transition-delay: 0.3s;
+}
+
+/* ─── DIVIDER ─── */
+.divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 20px 0;
+}
+
+/* ─── CONTACT ─── */
+.contact-info-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.contact-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255, 138, 0, 0.1);
+    border: 1px solid rgba(255, 138, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.contact-label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+
+.contact-value {
+    font-weight: 500;
+}
+
+/* ─── MARQUEE ─── */
+.marquee-wrapper {
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+.marquee-track {
+    display: flex;
+    gap: 32px;
+    animation: marquee 20s linear infinite;
+    width: max-content;
+}
+
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    background: var(--glass);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.marquee-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--orange);
+}
+
+@media (max-width: 640px) {
+    .section {
+        padding: 70px 0;
+    }
+
+    .hero-stats {
+        gap: 24px;
+    }
+
+    .cta-section {
+        padding: 48px 24px;
+        margin: 0 16px 60px;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+    }
+}
+
+</style></head><body>< !-- ─── NAVBAR ─── --><nav><div class="nav-inner"><div class="logo" onclick="goPage('home')"><div class="logo-mark">P</div><span class="logo-text grad-text">PODEVS</span></div><ul class="nav-links" id="navLinks"><li><a onclick="goPage('home')" data-page="home">Home</a></li><li><a onclick="goPage('about')" data-page="about">About</a></li><li><a onclick="goPage('whatwedo')" data-page="whatwedo">What We Do</a></li><li><a onclick="goPage('events')" data-page="events">Events</a></li><li><a onclick="goPage('blog')" data-page="blog">Updates</a></li><li><a onclick="goPage('media')" data-page="media">Media</a></li><li><a onclick="goPage('team')" data-page="team">Team</a></li><li><a onclick="goPage('services')" data-page="services">Services</a></li><li><a onclick="goPage('contact')" data-page="contact">Contact</a></li></ul><div class="nav-actions"><button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button><a class="btn btn-primary nav-join" onclick="goPage('signup')" style="padding:10px 22px;font-size:0.85rem;">Join Free</a><div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div></div></div></nav>< !-- ─── MOBILE MENU ─── --><div class="mobile-menu" id="mobileMenu"><a onclick="goPage('home');toggleMenu()">Home</a><a onclick="goPage('about');toggleMenu()">About</a><a onclick="goPage('whatwedo');toggleMenu()">What We Do</a><a onclick="goPage('events');toggleMenu()">Events</a><a onclick="goPage('blog');toggleMenu()">Updates</a><a onclick="goPage('media');toggleMenu()">Media</a><a onclick="goPage('team');toggleMenu()">Team</a><a onclick="goPage('services');toggleMenu()">Services</a><a onclick="goPage('contact');toggleMenu()">Contact</a><a onclick="goPage('signup');toggleMenu()" style="color:var(--orange);">→ Join Free</a></div>< !-- ══════════════════════════════════════════════════════════════ -->< !-- PAGE: HOME -->< !-- ══════════════════════════════════════════════════════════════ --><div id="page-home" class="page active">< !-- HERO --><section class="hero"><div class="hero-bg"><div class="hero-orb hero-orb-1"></div><div class="hero-orb hero-orb-2"></div><div class="hero-grid"></div></div><div class="container"><div class="hero-content"><div class="hero-badge"><div class="hero-badge-dot"></div>Student-First EdTech Platform </div><h1 class="hero-title">Where Students<br/><span class="grad-text">Learn,
+Build,
+</span><br/>and Launch. </h1><p class="hero-sub">PODEVS is your community to grow — through workshops,
+events,
+hackathons,
+and affordable services built for the next generation of builders.</p><div class="hero-btns"><a class="btn btn-primary" onclick="goPage('signup')"><span>Join the Community</span><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg></a><a class="btn btn-outline" onclick="goPage('events')">Explore Events</a></div><div class="hero-stats"><div class="stat"><span class="stat-num">2K+</span><span class="stat-label">Members</span></div><div class="stat"><span class="stat-num">50+</span><span class="stat-label">Workshops</span></div><div class="stat"><span class="stat-num">20+</span><span class="stat-label">Events Run</span></div><div class="stat"><span class="stat-num">100%</span><span class="stat-label">Student-Friendly</span></div></div></div></div><div class="scroll-indicator"><span>SCROLL</span><div class="scroll-line"></div></div></section>< !-- MARQUEE --><div class="marquee-wrapper" style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);"><div class="marquee-track" id="marqueeTrack"><div class="marquee-item"><div class="marquee-dot"></div>Workshops</div><div class="marquee-item"><div class="marquee-dot"></div>Hackathons</div><div class="marquee-item"><div class="marquee-dot"></div>YouTube Learning</div><div class="marquee-item"><div class="marquee-dot"></div>Web Dev Services</div><div class="marquee-item"><div class="marquee-dot"></div>Community Events</div><div class="marquee-item"><div class="marquee-dot"></div>Hosting</div><div class="marquee-item"><div class="marquee-dot"></div>Student Support</div><div class="marquee-item"><div class="marquee-dot"></div>Deployment</div><div class="marquee-item"><div class="marquee-dot"></div>Workshops</div><div class="marquee-item"><div class="marquee-dot"></div>Hackathons</div><div class="marquee-item"><div class="marquee-dot"></div>YouTube Learning</div><div class="marquee-item"><div class="marquee-dot"></div>Web Dev Services</div><div class="marquee-item"><div class="marquee-dot"></div>Community Events</div><div class="marquee-item"><div class="marquee-dot"></div>Hosting</div><div class="marquee-item"><div class="marquee-dot"></div>Student Support</div><div class="marquee-item"><div class="marquee-dot"></div>Deployment</div></div></div>< !-- 3 PILLARS --><section class="section"><div class="container"><div style="text-align:center;margin-bottom:60px;"><div class="section-label" style="justify-content:center;">What We Stand For</div><h2 class="section-title">Three Pillars of <span class="grad-text">PODEVS</span></h2><p class="section-sub" style="margin:0 auto;">Everything we do is built around learning,
+community,
+and creating opportunities for students.</p></div><div class="grid-3"><div class="glass-card pillar-card fade-up"><div class="pillar-icon">📚</div><h3 class="pillar-title">Learning</h3><p class="pillar-text">Free workshops,
+structured YouTube content,
+and curated resources so every student can upskill without financial barriers.</p><br/><a class="btn btn-outline" onclick="goPage('whatwedo')" style="font-size:0.82rem;padding:10px 20px;">Explore →</a></div><div class="glass-card pillar-card fade-up fade-up-delay-1"><div class="pillar-icon">🤝</div><h3 class="pillar-title">Community</h3><p class="pillar-text">Events,
+hackathons,
+and meetups that connect you with peers,
+mentors,
+and opportunities you won't find in a classroom.</p>
+ <br/><a class="btn btn-outline" onclick="goPage('events')" style="font-size:0.82rem;padding:10px 20px;">Events →</a></div><div class="glass-card pillar-card fade-up fade-up-delay-2"><div class="pillar-icon">🚀</div><h3 class="pillar-title">Services</h3><p class="pillar-text">Affordable website creation,
+deployment,
+and hosting services so you can launch your ideas without a hefty price tag.</p><br/><a class="btn btn-outline" onclick="goPage('services')" style="font-size:0.82rem;padding:10px 20px;">Services →</a></div></div></div></section>< !-- EVENTS PREVIEW --><section class="section" style="padding-top:0;"><div class="container"><div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:40px;"><div><div class="section-label">Upcoming</div><h2 class="section-title" style="margin-bottom:0;">Events & Hackathons</h2></div><a class="btn btn-outline" onclick="goPage('events')" style="font-size:0.85rem;">View All →</a></div><div class="grid-3"><div class="glass-card event-card fade-up"><div class="event-date-badge"><span class="day">15</span><span class="mo">JUN</span></div><span class="tag">Workshop</span><h3 class="event-title">Full-Stack Bootcamp: Next.js+Supabase</h3><div class="event-meta"><span>🕐 2:00 PM IST</span><span>📍 Online</span><span>🎟 Free</span></div><a class="btn btn-primary" onclick="goPage('events')" style="font-size:0.82rem;padding:10px 20px;">Register</a></div><div class="glass-card event-card fade-up fade-up-delay-1"><div class="event-date-badge"><span class="day">22</span><span class="mo">JUN</span></div><span class="tag">Hackathon</span><h3 class="event-title">BuildFast Hackathon — 24hr Sprint</h3><div class="event-meta"><span>🕐 All Day</span><span>📍 Chennai</span><span>🎟 ₹99</span></div><a class="btn btn-primary" onclick="goPage('events')" style="font-size:0.82rem;padding:10px 20px;">Register</a></div><div class="glass-card event-card fade-up fade-up-delay-2"><div class="event-date-badge"><span class="day">01</span><span class="mo">JUL</span></div><span class="tag">Talk</span><h3 class="event-title">DevTalks: Open Source & Your Career Path</h3><div class="event-meta"><span>🕐 6:00 PM IST</span><span>📍 Online</span><span>🎟 Free</span></div><a class="btn btn-primary" onclick="goPage('events')" style="font-size:0.82rem;padding:10px 20px;">Register</a></div></div></div></section>< !-- YOUTUBE PREVIEW --><section class="section" style="padding-top:0;"><div class="container"><div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:40px;"><div><div class="section-label">On YouTube</div><h2 class="section-title" style="margin-bottom:0;">Latest Videos</h2></div><a class="btn btn-outline" onclick="goPage('media')" style="font-size:0.85rem;">View All →</a></div><div class="grid-3"><div class="fade-up"><div class="video-thumb" onclick="openYT('dQw4w9WgXcQ')"><img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="Video Thumbnail" /><div class="video-play"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="#000" /></svg></div></div></div><div class="video-info"><p class="video-title">Build a Portfolio Website in 60 Minutes</p><p class="video-views">12K views · 3 weeks ago</p></div></div><div class="fade-up fade-up-delay-1"><div class="video-thumb" onclick="openYT('9bZkp7q19f0')"><img src="https://img.youtube.com/vi/9bZkp7q19f0/hqdefault.jpg" alt="Video Thumbnail" /><div class="video-play"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="#000" /></svg></div></div></div><div class="video-info"><p class="video-title">React Hooks Explained Simply</p><p class="video-views">8.4K views · 1 month ago</p></div></div><div class="fade-up fade-up-delay-2"><div class="video-thumb" onclick="openYT('FTQbiNvZqaY')"><img src="https://img.youtube.com/vi/FTQbiNvZqaY/hqdefault.jpg" alt="Video Thumbnail" /><div class="video-play"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="#000" /></svg></div></div></div><div class="video-info"><p class="video-title">Deploy Your First App on Vercel</p><p class="video-views">5.2K views · 2 months ago</p></div></div></div></div></section>< !-- FINAL CTA --><section class="section" style="padding-bottom:0;"><div class="cta-section"><div class="cta-orb cta-orb-1"></div><div class="cta-orb cta-orb-2"></div><div class="cta-content"><div class="tag" style="margin-bottom:24px;">The Smile of Education</div><h2 class="cta-title">Ready to Start Your<br/><span class="grad-text">Builder Journey?</span></h2><p class="cta-sub">Join 2,
+000+students already learning,
+building,
+and launching with PODEVS — completely free to start.</p><div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;"><a class="btn btn-primary" onclick="goPage('signup')">Join Free Today</a><a class="btn btn-outline" onclick="goPage('about')">Learn About Us</a></div></div></div></section><div style="height:80px;"></div>< !-- FOOTER --><div id="footer-home"></div></div>< !-- ══════════════════════════════════════════════════════════════ -->< !-- PAGE: ABOUT -->< !-- ══════════════════════════════════════════════════════════════ --><div id="page-about" class="page"><div class="page-hero"><div class="page-hero-bg"></div><div class="container page-hero-content"><div class="section-label">Who We Are</div><h1 class="section-title" style="font-size:clamp(2.4rem,6vw,4.5rem);">About <span class="grad-text">PODEVS</span></h1><p class="section-sub">A student-first EdTech community built on the belief that education should be accessible,
+joyful,
+and empowering.</p></div></div><section class="section" style="padding-top:20px;"><div class="container"><div class="mission-grid"><div class="mission-card fade-up"><div class="mission-icon">🎯</div><h3 class="mission-title">Our Mission</h3><p class="mission-text">To democratize tech education for students — offering free workshops,
+community events,
+and affordable services so every learner can build and launch their ideas regardless of background or budget.</p></div><div class="mission-card fade-up fade-up-delay-1" style="background:rgba(255,138,0,0.05);"><div class="mission-icon">🔭</div><h3 class="mission-title">Our Vision</h3><p class="mission-text">A world where every student is a creator — where the next generation of builders,
+designers,
+and founders get their start through community,
+not just classrooms.</p></div><div class="mission-card fade-up fade-up-delay-2" style="background:rgba(255,138,0,0.05);"><div class="mission-icon">📖</div><h3 class="mission-title">Our Story</h3><p class="mission-text">PODEVS started from a simple frustration: great tech education was either too expensive or too boring. We built the community we wished existed — student-run,
+community-powered,
+free to join.</p></div><div class="mission-card fade-up fade-up-delay-3"><div class="mission-icon">💛</div><h3 class="mission-title">Our Values</h3><p class="mission-text">Openness. Warmth. Ambition. We believe learning is a community sport. Every member matters. Every idea deserves a chance. The Smile of Education is not just a tagline — it's our promise.</p>
+ </div></div></div></section><section class="section" style="padding-top:0;"><div class="container"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2px;"><div style="background:var(--card);padding:40px 24px;text-align:center;"><div class="stat-num" style="font-size:2.5rem;">2K+</div><p style="color:var(--muted);font-size:0.9rem;margin-top:8px;">Community Members</p></div><div style="background:var(--card);padding:40px 24px;text-align:center;"><div class="stat-num" style="font-size:2.5rem;">50+</div><p style="color:var(--muted);font-size:0.9rem;margin-top:8px;">Free Workshops</p></div><div style="background:var(--card);padding:40px 24px;text-align:center;"><div class="stat-num" style="font-size:2.5rem;">20+</div><p style="color:var(--muted);font-size:0.9rem;margin-top:8px;">Events Organized</p></div><div style="background:var(--card);padding:40px 24px;text-align:center;"><div class="stat-num" style="font-size:2.5rem;">5+</div><p style="color:var(--muted);font-size:0.9rem;margin-top:8px;">Hackathons Hosted</p></div></div></div></section><section class="section" style="padding-top:0;padding-bottom:0;"><div class="cta-section"><div class="cta-orb cta-orb-1"></div><div class="cta-orb cta-orb-2"></div><div class="cta-content"><h2 class="cta-title">Be Part of <span class="grad-text">the Story</span></h2><p class="cta-sub">Every great community is built by people who show up. Join PODEVS and help us shape the future of student-led tech.</p><a class="btn btn-primary" onclick="goPage('signup')">Join PODEVS →</a></div></div></section><div style="height:80px;"></div></div>< !-- ══════════════════════════════════════════════════════════════ -->< !-- PAGE: WHAT WE DO -->< !-- ══════════════════════════════════════════════════════════════ --><div id="page-whatwedo" class="page"><div class="page-hero"><div class="page-hero-bg"></div><div class="container page-hero-content"><div class="section-label">Our Offerings</div><h1 class="section-title" style="font-size:clamp(2.4rem,6vw,4.5rem);">What We <span class="grad-text">Do</span></h1><p class="section-sub">From workshops to services — everything we build is designed for students who want to grow fast and ship real things.</p></div></div><section class="section" style="padding-top:20px;"><div class="container">< !-- Learning --><div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-bottom:80px;" class="responsive-flip"><div><div class="section-label">Pillar 01</div><h2 class="section-title">Learning</h2><p class="section-sub" style="margin-bottom:24px;">We run free workshops every month,
+covering in-demand skills like web development,
+open source,
+cloud,
+and more. Our YouTube channel serves bite-sized tutorials with zero gatekeeping.</p><div style="display:flex;flex-direction:column;gap:14px;margin-bottom:28px;"><div class="glass-card" style="padding:16px 20px;display:flex;align-items:center;gap:14px;border-radius:var(--radius-sm);"><div class="pillar-icon" style="width:40px;height:40px;margin:0;font-size:18px;">🎓</div><div><div style="font-weight:600;font-size:0.95rem;margin-bottom:2px;">Live Workshops</div><div style="font-size:0.82rem;color:var(--muted);">Monthly hands-on sessions — all free</div></div></div><div class="glass-card" style="padding:16px 20px;display:flex;align-items:center;gap:14px;border-radius:var(--radius-sm);"><div class="pillar-icon" style="width:40px;height:40px;margin:0;font-size:18px;">▶️</div><div><div style="font-weight:600;font-size:0.95rem;margin-bottom:2px;">YouTube Tutorials</div><div style="font-size:0.82rem;color:var(--muted);">Practical videos on trending tech</div></div></div><div class="glass-card" style="padding:16px 20px;display:flex;align-items:center;gap:14px;border-radius:var(--radius-sm);"><div class="pillar-icon" style="width:40px;height:40px;margin:0;font-size:18px;">📦</div><div><div style="font-weight:600;font-size:0.95rem;margin-bottom:2px;">Resource Packs</div><div style="font-size:0.82rem;color:var(--muted);">Curated materials,
+templates & starter kits</div></div></div></div><a class="btn btn-primary" onclick="goPage('media')">Watch Videos →</a></div><div style="border-radius:var(--radius);overflow:hidden;background:var(--card);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:6rem;position:relative;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,138,0,0.06),transparent);"></div>📚 </div></div>< !-- Community --><div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-bottom:80px;"><div style="border-radius:var(--radius);overflow:hidden;background:var(--card);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:6rem;position:relative;order:-1"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,138,0,0.06),transparent);"></div>🤝 </div><div><div class="section-label">Pillar 02</div><h2 class="section-title">Community</h2><p class="section-sub" style="margin-bottom:24px;">Tech is better together. PODEVS hosts events,
+hackathons,
+and networking sessions that turn strangers into collaborators. We create the spaces you need to grow beyond the code.</p><div style="display:flex;flex-direction:column;gap:14px;margin-bottom:28px;"><div class="glass-card" style="padding:16px 20px;display:flex;align-items:center;gap:14px;border-radius:var(--radius-sm);"><div class="pillar-icon" style="width:40px;height:40px;margin:0;font-size:18px;">⚡</div><div><div style="font-weight:600;font-size:0.95rem;margin-bottom:2px;">Hackathons</div><div style="font-size:0.82rem;color:var(--muted);">Build fast,
+win prizes,
+meet teams</div></div></div><div class="glass-card" style="padding:16px 20px;display:flex;align-items:center;gap:14px;border-radius:var(--radius-sm);"><div class="pillar-icon" style="width:40px;height:40px;margin:0;font-size:18px;">🎤</div><div><div style="font-weight:600;font-size:0.95rem;margin-bottom:2px;">Dev Talks</div><div style="font-size:0.82rem;color:var(--muted);">Expert speakers on trending topics</div></div></div><div class="glass-card" style="padding:16px 20px;display:flex;align-items:center;gap:14px;border-radius:var(--radius-sm);"><div class="pillar-icon" style="width:40px;height:40px;margin:0;font-size:18px;">🌐</div><div><div style="font-weight:600;font-size:0.95rem;margin-bottom:2px;">Online Community</div><div style="font-size:0.82rem;color:var(--muted);">Discord,
+group chats & study circles</div></div></div></div><a class="btn btn-primary" onclick="goPage('events')">See Events →</a></div></div>< !-- Services --><div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;"><div><div class="section-label">Pillar 03</div><h2 class="section-title">Services</h2><p class="section-sub" style="margin-bottom:24px;">We build the web so you can focus on your idea. Affordable website creation,
+fast deployment,
+and reliable hosting — all priced for students.</p><div style="display:flex;flex-direction:column;gap:14px;margin-bottom:28px;"><div class="glass-card" style="padding:16px 20px;display:flex;align-items:center;gap:14px;border-radius:var(--radius-sm);"><div class="pillar-icon" style="width:40px;height:40px;margin:0;font-size:18px;">🌍</div><div><div style="font-weight:600;font-size:0.95rem;margin-bottom:2px;">Website Creation</div><div style="font-size:0.82rem;color:var(--muted);">Custom-designed,
+fully responsive sites</div></div></div><div class="glass-card" style="padding:16px 20px;display:flex;align-items:center;gap:14px;border-radius:var(--radius-sm);"><div class="pillar-icon" style="width:40px;height:40px;margin:0;font-size:18px;">☁️</div><div><div style="font-weight:600;font-size:0.95rem;margin-bottom:2px;">Deployment & Hosting</div><div style="font-size:0.82rem;color:var(--muted);">Fast,
+reliable,
+student-friendly pricing</div></div></div></div><a class="btn btn-primary" onclick="goPage('services')">View Pricing →</a></div><div style="border-radius:var(--radius);overflow:hidden;background:var(--card);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:6rem;position:relative;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,138,0,0.06),transparent);"></div>🚀 </div></div></div></section><div style="height:80px;"></div></div>< !-- ══════════════════════════════════════════════════════════════ -->< !-- PAGE: EVENTS -->< !-- ══════════════════════════════════════════════════════════════ --><div id="page-events" class="page"><div class="page-hero"><div class="page-hero-bg"></div><div class="container page-hero-content"><div class="section-label">PODEVS Events</div><h1 class="section-title" style="font-size:clamp(2.4rem,6vw,4.5rem);">Events & <span class="grad-text">Hackathons</span></h1><p class="section-sub">Show up,
+build something,
+and meet people who care about the same things you do.</p></div></div><section class="section" style="padding-top:20px;"><div class="container"><div class="section-label">Upcoming Events</div><h2 class="section-title" style="margin-bottom:40px;">Don't Miss These</h2>
+ <div class="grid-2"><div class="glass-card event-card fade-up" style="border:1px solid rgba(255,138,0,0.25);"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;"><div class="event-date-badge" style="width:60px;height:60px;"><span class="day" style="font-size:1.4rem;">15</span><span class="mo">JUN</span></div><span class="tag" style="background:rgba(255,138,0,0.15);">Workshop</span></div><h3 class="event-title" style="font-size:1.25rem;">Full-Stack Bootcamp: Next.js+Supabase</h3><p style="color:var(--muted);font-size:0.9rem;line-height:1.6;">Build and deploy a full-stack app from scratch in one session. Perfect for beginners with basic HTML/CSS knowledge.</p><div class="event-meta"><span>🕐 2:00 PM – 6:00 PM IST</span><span>📍 Online (Zoom)</span><span>🎟 Free</span><span>👥 Max 100</span></div><a class="btn btn-primary" href="#" style="font-size:0.88rem;">Register Now</a></div><div class="glass-card event-card fade-up fade-up-delay-1"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;"><div class="event-date-badge" style="width:60px;height:60px;"><span class="day" style="font-size:1.4rem;">22</span><span class="mo">JUN</span></div><span class="tag">Hackathon</span></div><h3 class="event-title" style="font-size:1.25rem;">BuildFast Hackathon — 24hr Sprint</h3><p style="color:var(--muted);font-size:0.9rem;line-height:1.6;">Form a team,
+pick a problem,
+and ship a working product in 24 hours. Prizes,
+mentorship,
+and a lot of coffee.</p><div class="event-meta"><span>🕐 9:00 AM – next day</span><span>📍 Chennai</span><span>🎟 ₹99/person</span><span>🏆 Prizes worth ₹30K</span></div><a class="btn btn-primary" href="#" style="font-size:0.88rem;">Register Now</a></div><div class="glass-card event-card fade-up fade-up-delay-2"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;"><div class="event-date-badge" style="width:60px;height:60px;"><span class="day" style="font-size:1.4rem;">01</span><span class="mo">JUL</span></div><span class="tag">Talk</span></div><h3 class="event-title" style="font-size:1.25rem;">DevTalks: Open Source & Your Career</h3><p style="color:var(--muted);font-size:0.9rem;line-height:1.6;">Hear from engineers who started with open source contributions. Q&A session included.</p><div class="event-meta"><span>🕐 6:00 PM IST</span><span>📍 Online</span><span>🎟 Free</span></div><a class="btn btn-primary" href="#" style="font-size:0.88rem;">Register Now</a></div><div class="glass-card event-card fade-up fade-up-delay-3"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;"><div class="event-date-badge" style="width:60px;height:60px;"><span class="day" style="font-size:1.4rem;">14</span><span class="mo">JUL</span></div><span class="tag">Workshop</span></div><h3 class="event-title" style="font-size:1.25rem;">UI/UX Design Crash Course with Figma</h3><p style="color:var(--muted);font-size:0.9rem;line-height:1.6;">Learn the fundamentals of design thinking,
+wireframing,
+and prototyping — even if you can't draw.</p>
+ <div class="event-meta"><span>🕐 3:00 PM – 5:30 PM IST</span><span>📍 Online</span><span>🎟 Free</span></div><a class="btn btn-primary" href="#" style="font-size:0.88rem;">Register Now</a></div></div><div class="divider" style="margin:60px 0;"></div><div class="section-label">Archive</div><h2 class="section-title" style="margin-bottom:40px;">Past Events</h2><div class="grid-3"><div class="glass-card event-card" style="opacity:0.7;"><div class="event-date-badge"><span class="day">05</span><span class="mo">MAY</span></div><span class="tag" style="opacity:0.6;">Completed</span><h3 class="event-title">Git & GitHub Masterclass</h3><div class="event-meta"><span>📍 Online</span><span>👥 85 attended</span></div></div><div class="glass-card event-card" style="opacity:0.7;"><div class="event-date-badge"><span class="day">19</span><span class="mo">APR</span></div><span class="tag" style="opacity:0.6;">Completed</span><h3 class="event-title">Python for Beginners Weekend</h3><div class="event-meta"><span>📍 Online</span><span>👥 120 attended</span></div></div><div class="glass-card event-card" style="opacity:0.7;"><div class="event-date-badge"><span class="day">02</span><span class="mo">MAR</span></div><span class="tag" style="opacity:0.6;">Completed</span><h3 class="event-title">Podevs Hackathon v1.0</h3><div class="event-meta"><span>📍 Chennai</span><span>👥 200 attended</span></div></div></div></div></section><div style="height:80px;"></div></div>< !-- ══════════════════════════════════════════════════════════════ -->< !-- PAGE: BLOG / UPDATES -->< !-- ══════════════════════════════════════════════════════════════ --><div id="page-blog" class="page"><div class="page-hero"><div class="page-hero-bg"></div><div class="container page-hero-content"><div class="section-label">Updates & Blog</div><h1 class="section-title" style="font-size:clamp(2.4rem,6vw,4.5rem);">Community <span class="grad-text">Updates</span></h1><p class="section-sub">Announcements,
+learning resources,
+opportunities,
+and stories from the PODEVS community.</p></div></div><section class="section" style="padding-top:20px;"><div class="container">< !-- Featured post --><div class="glass-card" style="padding:40px;margin-bottom:40px;border:1px solid rgba(255,138,0,0.15);"><div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:20px;"><span class="tag" style="background:rgba(255,138,0,0.15);">Featured</span><span class="tag">Announcement</span></div><p class="post-date">MAY 01,
+2025</p><h2 style="font-family:var(--font-head);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;margin:12px 0 16px;line-height:1.2;">PODEVS Launches BuildFast Hackathon — Registrations Open !</h2><p style="color:var(--muted);line-height:1.7;margin-bottom:24px;">We're thrilled to announce our biggest community event yet. BuildFast is a 24-hour hackathon open to all students — solo or in teams of up to 4. Win prizes, get mentorship, and most importantly: ship something real.</p>
+ <a class="btn btn-primary" onclick="goPage('events')">View Event Details →</a></div><div class="grid-2"><div class="glass-card post-card fade-up"><p class="post-date">APR 22,
+2025</p><span class="tag">Resource</span><h3 class="post-title">The 30-Day Web Dev Challenge — Week by Week Plan</h3><p class="post-excerpt">A structured 30-day roadmap to go from zero to deployed portfolio. Includes daily tasks,
+tools,
+and links to our YouTube videos.</p><span class="post-read">Read More →</span></div><div class="glass-card post-card fade-up fade-up-delay-1"><p class="post-date">APR 10,
+2025</p><span class="tag">Opportunity</span><h3 class="post-title">5 Open Source Projects Hiring Student Contributors</h3><p class="post-excerpt">Great news for freshers — these beginner-friendly open source projects are actively looking for contributors and offering mentorship.</p><span class="post-read">Read More →</span></div><div class="glass-card post-card fade-up"><p class="post-date">MAR 30,
+2025</p><span class="tag">Workshop Recap</span><h3 class="post-title">Git Masterclass Recap — What 85 Students Learned</h3><p class="post-excerpt">Summary of our biggest workshop yet — key takeaways,
+resources shared,
+and what participants said about the session.</p><span class="post-read">Read More →</span></div><div class="glass-card post-card fade-up fade-up-delay-1"><p class="post-date">MAR 15,
+2025</p><span class="tag">Community</span><h3 class="post-title">Introducing PODEVS Services — Websites Starting ₹999</h3><p class="post-excerpt">We now offer affordable web development services for students and small teams. Portfolio sites,
+club pages,
+project showcases — we've got you.</p>
+ <span class="post-read">Read More →</span></div><div class="glass-card post-card fade-up"><p class="post-date">FEB 28,
+2025</p><span class="tag">Tech</span><h3 class="post-title">Why Every CS Student Should Learn Deployment in 2025</h3><p class="post-excerpt">Writing code is half the battle. Here's why deploying your work matters more than ever — and how to start today for free.</p>
+ <span class="post-read">Read More →</span></div><div class="glass-card post-card fade-up fade-up-delay-1"><p class="post-date">FEB 10,
+2025</p><span class="tag">Internship</span><h3 class="post-title">Top 10 Internship Platforms for Tech Students in India</h3><p class="post-excerpt">A curated list of the best platforms to find internships — with tips on standing out as a first-year student with no prior experience.</p><span class="post-read">Read More →</span></div></div></div></section><div style="height:80px;"></div></div>< !-- ══════════════════════════════════════════════════════════════ -->< !-- PAGE: MEDIA / YOUTUBE -->< !-- ══════════════════════════════════════════════════════════════ --><div id="page-media" class="page"><div class="page-hero"><div class="page-hero-bg"></div><div class="container page-hero-content"><div class="section-label">YouTube & Media</div><h1 class="section-title" style="font-size:clamp(2.4rem,6vw,4.5rem);">Learn on <span class="grad-text">YouTube</span></h1><p class="section-sub">Practical,
+no-fluff tutorials made by students,
+for students. Subscribe and level up your skills.</p><br/><a class="btn btn-primary" href="https://youtube.com" target="_blank">Subscribe on YouTube →</a></div></div><section class="section" style="padding-top:20px;"><div class="container">< !-- Featured video --><div style="margin-bottom:48px;"><div class="section-label">Most Watched</div><h2 class="section-title" style="margin-bottom:24px;">Featured Video</h2><div style="border-radius:var(--radius);overflow:hidden;position:relative;box-shadow:var(--glow);"><div id="featured-embed" style="aspect-ratio:16/9;background:var(--card);display:flex;align-items:center;justify-content:center;"><div style="text-align:center;"><div class="play-btn" style="margin:0 auto 16px;width:72px;height:72px;cursor:pointer;" onclick="loadFeatured()"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M7 5.5l17 8.5-17 8.5V5.5z" fill="#000" /></svg></div><p style="color:var(--muted);font-size:0.9rem;">Click to play: Build a Portfolio Website in 60 Minutes</p></div></div></div></div><div class="section-label">All Videos</div><h2 class="section-title" style="margin-bottom:32px;">Video Library</h2><div class="grid-3"><div class="fade-up"><div class="video-thumb" onclick="openYT('dQw4w9WgXcQ')"><img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="thumb" /><div class="video-play"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="#000" /></svg></div></div></div><div class="video-info"><p class="video-title">Build a Portfolio Website in 60 Minutes</p><p class="video-views">12K views · 3 weeks ago</p></div></div><div class="fade-up fade-up-delay-1"><div class="video-thumb" onclick="openYT('9bZkp7q19f0')"><img src="https://img.youtube.com/vi/9bZkp7q19f0/hqdefault.jpg" alt="thumb" /><div class="video-play"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="#000" /></svg></div></div></div><div class="video-info"><p class="video-title">React Hooks Explained Simply</p><p class="video-views">8.4K views · 1 month ago</p></div></div><div class="fade-up fade-up-delay-2"><div class="video-thumb" onclick="openYT('FTQbiNvZqaY')"><img src="https://img.youtube.com/vi/FTQbiNvZqaY/hqdefault.jpg" alt="thumb" /><div class="video-play"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="#000" /></svg></div></div></div><div class="video-info"><p class="video-title">Deploy Your First App on Vercel</p><p class="video-views">5.2K views · 2 months ago</p></div></div><div class="fade-up"><div class="video-thumb" onclick="openYT('rfscVS0vtbw')"><img src="https://img.youtube.com/vi/rfscVS0vtbw/hqdefault.jpg" alt="thumb" /><div class="video-play"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="#000" /></svg></div></div></div><div class="video-info"><p class="video-title">CSS Grid & Flexbox in 20 Minutes</p><p class="video-views">7.1K views · 2 months ago</p></div></div><div class="fade-up fade-up-delay-1"><div class="video-thumb" onclick="openYT('SqcY0GlETPk')"><img src="https://img.youtube.com/vi/SqcY0GlETPk/hqdefault.jpg" alt="thumb" /><div class="video-play"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="#000" /></svg></div></div></div><div class="video-info"><p class="video-title">Git Crash Course for Students</p><p class="video-views">9.8K views · 3 months ago</p></div></div><div class="fade-up fade-up-delay-2"><div class="video-thumb" onclick="openYT('w7ejDZ8SWv8')"><img src="https://img.youtube.com/vi/w7ejDZ8SWv8/hqdefault.jpg" alt="thumb" /><div class="video-play"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="#000" /></svg></div></div></div><div class="video-info"><p class="video-title">JavaScript Async/Await Explained</p><p class="video-views">6.3K views · 4 months ago</p></div></div></div></div></section><div style="height:80px;"></div></div>< !-- ══════════════════════════════════════════════════════════════ -->< !-- PAGE: TEAM -->< !-- ══════════════════════════════════════════════════════════════ --><div id="page-team" class="page"><div class="page-hero"><div class="page-hero-bg"></div><div class="container page-hero-content"><div class="section-label">The People</div><h1 class="section-title" style="font-size:clamp(2.4rem,6vw,4.5rem);">Meet the <span class="grad-text">Team</span></h1><p class="section-sub">Students and builders who believe education should be open,
+joyful,
+and empowering for everyone.</p></div></div><section class="section" style="padding-top:20px;"><div class="container"><div class="section-label">Leadership</div><h2 class="section-title" style="margin-bottom:40px;">Core Team</h2><div class="grid-4"><div class="glass-card team-card fade-up"><div class="avatar" style="background:var(--grad);"><div class="avatar-ring"></div>AK </div><div class="team-name">Arun Kumar</div><div class="team-role">Founder & Lead</div><p class="team-bio">CS undergrad by day,
+builder by night. Started PODEVS to fix what was broken in student tech education.</p><div class="social-links"><a class="social-link" href="#" title="Twitter">𝕏</a><a class="social-link" href="#" title="LinkedIn">in</a><a class="social-link" href="#" title="GitHub">⌥</a></div></div><div class="glass-card team-card fade-up fade-up-delay-1"><div class="avatar" style="background:linear-gradient(135deg,#6c63ff,#FF8A00);"><div class="avatar-ring"></div>PR </div><div class="team-name">Priya Raj</div><div class="team-role">Community Lead</div><p class="team-bio">Believes the best learning happens with other people. Runs our events,
+Discord,
+and partnerships.</p><div class="social-links"><a class="social-link" href="#" title="Twitter">𝕏</a><a class="social-link" href="#" title="LinkedIn">in</a></div></div><div class="glass-card team-card fade-up fade-up-delay-2"><div class="avatar" style="background:linear-gradient(135deg,#00C9FF,#FFC247);"><div class="avatar-ring"></div>KS </div><div class="team-name">Karthik S</div><div class="team-role">Tech & Content</div><p class="team-bio">Full-stack developer and educator. Builds our platform,
+records tutorials,
+and leads workshops.</p><div class="social-links"><a class="social-link" href="#" title="Twitter">𝕏</a><a class="social-link" href="#" title="GitHub">⌥</a></div></div><div class="glass-card team-card fade-up fade-up-delay-3"><div class="avatar" style="background:linear-gradient(135deg,#FF8A00,#ff6b6b);"><div class="avatar-ring"></div>DM </div><div class="team-name">Divya M</div><div class="team-role">Design & Brand</div><p class="team-bio">UI/UX designer who makes sure everything at PODEVS looks and feels premium — even when it's free.</p>
+ <div class="social-links"><a class="social-link" href="#" title="Twitter">𝕏</a><a class="social-link" href="#" title="LinkedIn">in</a></div></div></div><div class="divider" style="margin:60px 0;"></div><div class="section-label">Contributors</div><h2 class="section-title" style="margin-bottom:40px;">Volunteers & Contributors</h2><div class="grid-4"><div class="glass-card team-card fade-up"><div class="avatar" style="background:linear-gradient(135deg,#43e97b,#38f9d7);"><div class="avatar-ring"></div>RV</div><div class="team-name">Ravi V</div><div class="team-role">Workshop Host</div><div class="social-links"><a class="social-link" href="#">in</a></div></div><div class="glass-card team-card fade-up fade-up-delay-1"><div class="avatar" style="background:linear-gradient(135deg,#f093fb,#f5576c);"><div class="avatar-ring"></div>SN</div><div class="team-name">Sneha N</div><div class="team-role">Content Creator</div><div class="social-links"><a class="social-link" href="#">𝕏</a></div></div><div class="glass-card team-card fade-up fade-up-delay-2"><div class="avatar" style="background:linear-gradient(135deg,#4facfe,#00f2fe);"><div class="avatar-ring"></div>MK</div><div class="team-name">Mani K</div><div class="team-role">Social Media</div><div class="social-links"><a class="social-link" href="#">in</a></div></div><div class="glass-card team-card fade-up fade-up-delay-3"><div class="avatar" style="background:linear-gradient(135deg,#fa709a,#fee140);"><div class="avatar-ring"></div>LR</div><div class="team-name">Latha R</div><div class="team-role">Event Coordinator</div><div class="social-links"><a class="social-link" href="#">𝕏</a></div></div></div><div style="text-align:center;margin-top:60px;"><p style="color:var(--muted);margin-bottom:20px;">Want to join the team and help shape student education?</p><a class="btn btn-primary" onclick="goPage('contact')">Get In Touch</a></div></div></section><div style="height:80px;"></div></div>< !-- ══════════════════════════════════════════════════════════════ -->< !-- PAGE: SERVICES -->< !-- ══════════════════════════════════════════════════════════════ --><div id="page-services" class="page"><div class="page-hero"><div class="page-hero-bg"></div><div class="container page-hero-content"><div class="section-label">We Build For You</div><h1 class="section-title" style="font-size:clamp(2.4rem,6vw,4.5rem);">Affordable <span class="grad-text">Services</span></h1><p class="section-sub">Professional web services priced for students. No compromise on quality,
+just on cost.</p></div></div><section class="section" style="padding-top:20px;"><div class="container"><div style="text-align:center;margin-bottom:16px;"><div class="tag" style="margin-bottom:12px;">Student-Friendly Pricing</div><p style="color:var(--muted);">All prices in INR. We work with students,
+clubs,
+and early-stage startups.</p></div><br/><div class="grid-3"><div class="glass-card service-card fade-up"><span class="tag">Website</span><h3 class="pillar-title" style="margin-top:12px;">Portfolio / Blog</h3><div class="service-price">₹999</div><p style="color:var(--muted);font-size:0.88rem;">Starting from</p><ul class="service-features"><li><span class="check">✓</span>Custom responsive design</li><li><span class="check">✓</span>Up to 5 pages</li><li><span class="check">✓</span>Mobile optimized</li><li><span class="check">✓</span>SEO basics included</li><li><span class="check">✓</span>Free deployment</li></ul><a class="btn btn-primary" onclick="goPage('contact')" style="width:100%;justify-content:center;">Get Started</a></div><div class="glass-card service-card fade-up fade-up-delay-1" style="border:1px solid rgba(255,138,0,0.35);position:relative;"><div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--grad);color:#000;font-family:var(--font-mono);font-size:11px;font-weight:700;padding:5px 18px;border-radius:99px;letter-spacing:0.08em;white-space:nowrap;">MOST POPULAR</div><span class="tag" style="background:rgba(255,138,0,0.2);">Full Website</span><h3 class="pillar-title" style="margin-top:12px;">Club / Business Site</h3><div class="service-price">₹2,
+499</div><p style="color:var(--muted);font-size:0.88rem;">Starting from</p><ul class="service-features"><li><span class="check">✓</span>Everything in Portfolio</li><li><span class="check">✓</span>Up to 10 pages</li><li><span class="check">✓</span>Contact form integration</li><li><span class="check">✓</span>Admin dashboard</li><li><span class="check">✓</span>1 month free support</li><li><span class="check">✓</span>Custom domain setup</li></ul><a class="btn btn-primary" onclick="goPage('contact')" style="width:100%;justify-content:center;box-shadow:0 0 40px rgba(255,138,0,0.4);">Get Started</a></div><div class="glass-card service-card fade-up fade-up-delay-2"><span class="tag">Advanced</span><h3 class="pillar-title" style="margin-top:12px;">Full-Stack App</h3><div class="service-price">₹7,
+999</div><p style="color:var(--muted);font-size:0.88rem;">Starting from</p><ul class="service-features"><li><span class="check">✓</span>React+Next.js frontend</li><li><span class="check">✓</span>Backend API+database</li><li><span class="check">✓</span>User auth system</li><li><span class="check">✓</span>Cloud deployment</li><li><span class="check">✓</span>3 months support</li></ul><a class="btn btn-primary" onclick="goPage('contact')" style="width:100%;justify-content:center;">Get Started</a></div></div><div class="divider" style="margin:60px 0;"></div><div class="section-label">Add-Ons</div><h2 class="section-title" style="margin-bottom:40px;">Additional Services</h2><div class="grid-2"><div class="glass-card" style="padding:32px;display:flex;gap:24px;align-items:flex-start;"><div class="pillar-icon" style="margin:0;">☁️</div><div><h3 style="font-family:var(--font-head);font-weight:700;margin-bottom:8px;">Hosting Plans</h3><p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:12px;">Reliable cloud hosting with 99.9% uptime. Starting from ₹199/month for static sites,
+₹499/month for dynamic apps.</p><a class="btn btn-outline" onclick="goPage('contact')" style="font-size:0.82rem;padding:10px 20px;">Inquire</a></div></div><div class="glass-card" style="padding:32px;display:flex;gap:24px;align-items:flex-start;"><div class="pillar-icon" style="margin:0;">🔧</div><div><h3 style="font-family:var(--font-head);font-weight:700;margin-bottom:8px;">Maintenance & Updates</h3><p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:12px;">Keep your site fresh and secure. Monthly maintenance packages including content updates,
+bug fixes,
+and performance optimization.</p><a class="btn btn-outline" onclick="goPage('contact')" style="font-size:0.82rem;padding:10px 20px;">Inquire</a></div></div><div class="glass-card" style="padding:32px;display:flex;gap:24px;align-items:flex-start;"><div class="pillar-icon" style="margin:0;">🎨</div><div><h3 style="font-family:var(--font-head);font-weight:700;margin-bottom:8px;">Design Only (Figma)</h3><p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:12px;">Get a professional Figma design for your site or app. You implement,
+we design. Starting from ₹1,
+499.</p><a class="btn btn-outline" onclick="goPage('contact')" style="font-size:0.82rem;padding:10px 20px;">Inquire</a></div></div><div class="glass-card" style="padding:32px;display:flex;gap:24px;align-items:flex-start;"><div class="pillar-icon" style="margin:0;">⚡</div><div><h3 style="font-family:var(--font-head);font-weight:700;margin-bottom:8px;">Deployment Setup</h3><p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:12px;">We set up CI/CD,
+configure your domain,
+and deploy your existing project. One-time fee starting at ₹499.</p><a class="btn btn-outline" onclick="goPage('contact')" style="font-size:0.82rem;padding:10px 20px;">Inquire</a></div></div></div></div></section><div style="height:80px;"></div></div>< !-- ══════════════════════════════════════════════════════════════ -->< !-- PAGE: SIGNUP -->< !-- ══════════════════════════════════════════════════════════════ --><div id="page-signup" class="page"><div class="page-hero"><div class="page-hero-bg"></div><div class="container page-hero-content"><div class="section-label">Join Us</div><h1 class="section-title" style="font-size:clamp(2.4rem,6vw,4.5rem);">Join <span class="grad-text">PODEVS</span></h1><p class="section-sub">It's free. Always. Get access to workshops, community, and resources the moment you sign up.</p>
+ </div></div><section class="section" style="padding-top:20px;"><div class="container" style="max-width:640px;"><div class="glass-card" style="padding:48px 40px;border:1px solid rgba(255,138,0,0.15);"><h2 style="font-family:var(--font-head);font-size:1.5rem;font-weight:700;margin-bottom:8px;">Create Your Account</h2><p style="color:var(--muted);font-size:0.9rem;margin-bottom:32px;">Join 2,
+000+students already in the community.</p><div style="display:flex;flex-direction:column;gap:20px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;"><div class="form-group"><label class="form-label">First Name</label><input class="form-input" type="text" placeholder="Arun" /></div><div class="form-group"><label class="form-label">Last Name</label><input class="form-input" type="text" placeholder="Kumar" /></div></div><div class="form-group"><label class="form-label">Email Address</label><input class="form-input" type="email" placeholder="you@example.com" /></div><div class="form-group"><label class="form-label">College / Institution</label><input class="form-input" type="text" placeholder="Your college name" /></div><div class="form-group"><label class="form-label">What interests you most?</label><select class="form-input"><option value="">Select an interest</option><option>Web Development</option><option>Machine Learning / AI</option><option>Mobile Development</option><option>DevOps & Cloud</option><option>UI/UX Design</option><option>Open Source</option><option>All of the above !</option></select></div><div class="form-group"><label class="form-label">Year of Study</label><select class="form-input"><option value="">Select year</option><option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option><option>Postgraduate</option><option>Other</option></select></div><button class="btn btn-primary" style="width:100%;justify-content:center;padding:16px;font-size:1rem;" onclick="handleSignup(this)">Join PODEVS — It's Free
+ </button><p style="font-size:0.8rem;color:var(--subtle);text-align:center;">No spam,
+ever. Unsubscribe anytime. The Smile of Education.</p></div></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px;"><div style="text-align:center;padding:20px;background:var(--card);border-radius:var(--radius-sm);"><div style="font-size:1.8rem;margin-bottom:6px;">🎓</div><div style="font-size:0.82rem;color:var(--muted);">Free Workshops</div></div><div style="text-align:center;padding:20px;background:var(--card);border-radius:var(--radius-sm);"><div style="font-size:1.8rem;margin-bottom:6px;">🤝</div><div style="font-size:0.82rem;color:var(--muted);">Community Access</div></div><div style="text-align:center;padding:20px;background:var(--card);border-radius:var(--radius-sm);"><div style="font-size:1.8rem;margin-bottom:6px;">📢</div><div style="font-size:0.82rem;color:var(--muted);">Early Opportunities</div></div></div></div></section><div style="height:80px;"></div></div>< !-- ══════════════════════════════════════════════════════════════ -->< !-- PAGE: CONTACT -->< !-- ══════════════════════════════════════════════════════════════ --><div id="page-contact" class="page"><div class="page-hero"><div class="page-hero-bg"></div><div class="container page-hero-content"><div class="section-label">Get In Touch</div><h1 class="section-title" style="font-size:clamp(2.4rem,6vw,4.5rem);">Say <span class="grad-text">Hello</span></h1><p class="section-sub">Questions,
+collabs,
+or just want to say hi — we're always happy to hear from students and partners.</p>
+ </div></div><section class="section" style="padding-top:20px;"><div class="container"><div style="display:grid;grid-template-columns:1fr 1.5fr;gap:48px;align-items:start;"><div><div class="section-label">Contact Info</div><h2 class="section-title" style="margin-bottom:32px;font-size:1.8rem;">Reach Out</h2><div style="display:flex;flex-direction:column;gap:24px;margin-bottom:40px;"><div class="contact-info-item"><div class="contact-icon">📧</div><div><p class="contact-label">Email</p><p class="contact-value">hello@podevs.com</p></div></div><div class="contact-info-item"><div class="contact-icon">📍</div><div><p class="contact-label">Location</p><p class="contact-value">Chennai, Tamil Nadu</p></div></div><div class="contact-info-item"><div class="contact-icon">⏰</div><div><p class="contact-label">Response Time</p><p class="contact-value">Within 24–48 hours</p></div></div></div><div class="section-label">Follow Us</div><div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;"><a class="social-link" href="#" style="width:auto;padding:10px 18px;gap:8px;font-size:0.85rem;border-radius:99px;">𝕏 Twitter</a><a class="social-link" href="#" style="width:auto;padding:10px 18px;gap:8px;font-size:0.85rem;border-radius:99px;">in LinkedIn</a><a class="social-link" href="#" style="width:auto;padding:10px 18px;gap:8px;font-size:0.85rem;border-radius:99px;">▶ YouTube</a><a class="social-link" href="#" style="width:auto;padding:10px 18px;gap:8px;font-size:0.85rem;border-radius:99px;">🎮 Discord</a><a class="social-link" href="#" style="width:auto;padding:10px 18px;gap:8px;font-size:0.85rem;border-radius:99px;">📸 Instagram</a></div></div><div class="glass-card" style="padding:40px;border:1px solid rgba(255,138,0,0.1);"><h3 style="font-family:var(--font-head);font-size:1.2rem;font-weight:700;margin-bottom:24px;">Send a Message</h3><div style="display:flex;flex-direction:column;gap:18px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;"><div class="form-group"><label class="form-label">Name</label><input class="form-input" type="text" placeholder="Your name" /></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="your@email.com" /></div></div><div class="form-group"><label class="form-label">Subject</label><select class="form-input"><option>General Inquiry</option><option>Services / Pricing</option><option>Workshop / Event</option><option>Collaboration / Partnership</option><option>Join the Team</option><option>Other</option></select></div><div class="form-group"><label class="form-label">Message</label><textarea class="form-input" placeholder="Tell us what's on your mind..."></textarea></div><button class="btn btn-primary" style="width:100%;justify-content:center;padding:16px;" onclick="handleContact(this)">Send Message</button></div></div></div></div></section><div style="height:80px;"></div></div>< !-- ══════════════════════════════════════════════════════════════ -->< !-- GLOBAL FOOTER -->< !-- ══════════════════════════════════════════════════════════════ --><footer id="global-footer"><div class="container"><div class="footer-inner"><div class="footer-brand"><div class="logo" onclick="goPage('home')" style="margin-bottom:16px;"><div class="logo-mark">P</div><span class="logo-text grad-text">PODEVS</span></div><p>The Smile of Education. A student-first EdTech community where learners build, connect, and launch — for free.</p><div class="footer-social"><a class="social-link" href="#" title="Twitter">𝕏</a><a class="social-link" href="#" title="LinkedIn">in</a><a class="social-link" href="#" title="YouTube">▶</a><a class="social-link" href="#" title="Discord">🎮</a><a class="social-link" href="#" title="Instagram">📸</a></div></div><div class="footer-col"><h4>Platform</h4><ul><li><a onclick="goPage('about')">About Us</a></li><li><a onclick="goPage('whatwedo')">What We Do</a></li><li><a onclick="goPage('team')">Our Team</a></li><li><a onclick="goPage('blog')">Updates</a></li></ul></div><div class="footer-col"><h4>Community</h4><ul><li><a onclick="goPage('events')">Events</a></li><li><a onclick="goPage('media')">YouTube</a></li><li><a onclick="goPage('signup')">Join Free</a></li><li><a href="#">Discord</a></li></ul></div><div class="footer-col"><h4>Services</h4><ul><li><a onclick="goPage('services')">Web Development</a></li><li><a onclick="goPage('services')">Hosting</a></li><li><a onclick="goPage('services')">Deployment</a></li><li><a onclick="goPage('contact')">Contact Us</a></li></ul></div></div><div class="footer-bottom"><p>© 2025 PODEVS. Made with 💛 for students everywhere.</p><p style="font-family:var(--font-mono);font-size:11px;">The Smile of Education</p></div></div></footer><script> // ─── THEME ───
+const savedTheme=localStorage.getItem('podevs-theme') || 'dark';
+document.documentElement.setAttribute('data-theme', savedTheme);
+const themeToggle=document.getElementById('themeToggle');
+
+function updateToggleIcon() {
+    const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+    themeToggle.textContent=isDark ? '🌙': '☀️';
+}
+
+updateToggleIcon();
+
+themeToggle.addEventListener('click', ()=> {
+        const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+        const newTheme=isDark ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('podevs-theme', newTheme);
+        updateToggleIcon();
+    });
+
+// ─── ROUTING ───
+const pages=['home',
+'about',
+'whatwedo',
+'events',
+'blog',
+'media',
+'team',
+'services',
+'signup',
+'contact'];
+
+function goPage(id) {
+    pages.forEach(p=> {
+            const el=document.getElementById('page-' + p);
+            if (el) el.classList.toggle('active', p===id);
+        });
+
+    // update nav active state
+    document.querySelectorAll('[data-page]').forEach(a=> {
+            a.classList.toggle('active', a.dataset.page===id);
+        });
+    // footer visibility — show on all pages
+    const footer=document.getElementById('global-footer');
+    if (footer) footer.style.display='';
+
+    window.scrollTo({
+        top: 0, behavior: 'smooth'
+    });
+// trigger animations
+setTimeout(initFadeUps, 100);
+}
+
+// ─── MOBILE MENU ───
+function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ─── FADE UP ANIMATIONS ───
+function initFadeUps() {
+    const observer=new IntersectionObserver((entries)=> {
+            entries.forEach(e=> {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('visible'); observer.unobserve(e.target);
+                    }
+                });
+        }
+
+        , {
+        threshold: 0.12
+    });
+document.querySelectorAll('.fade-up:not(.visible)').forEach(el=> observer.observe(el));
+}
+
+initFadeUps();
+
+// ─── YOUTUBE ───
+function openYT(id) {
+    window.open('https://www.youtube.com/watch?v=' + id, '_blank');
+}
+
+function loadFeatured() {
+    const el=document.getElementById('featured-embed');
+    if ( !el) return;
+    el.innerHTML='<iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;"></iframe>';
+    el.style.position='relative';
+}
+
+// ─── FORM HANDLERS ───
+function handleSignup(btn) {
+    btn.textContent='✓ Welcome to PODEVS!';
+    btn.style.background='linear-gradient(135deg,#43e97b,#38f9d7)';
+
+    setTimeout(()=> {
+            btn.textContent='Join PODEVS — It\'s Free'; btn.style.background='';
+        }
+
+        , 3000);
+}
+
+function handleContact(btn) {
+    btn.textContent='✓ Message Sent!';
+    btn.style.background='linear-gradient(135deg,#43e97b,#38f9d7)';
+
+    setTimeout(()=> {
+            btn.textContent='Send Message'; btn.style.background='';
+        }
+
+        , 3000);
+}
+
+// ─── RESPONSIVE GRID FLIP ───
+function handleResponsive() {
+    const w=window.innerWidth;
+
+    document.querySelectorAll('.responsive-flip').forEach(el=> {
+            el.style.gridTemplateColumns=w < 768 ? '1fr' : '1fr 1fr';
+        });
+}
+
+window.addEventListener('resize', handleResponsive);
+handleResponsive();
+</script></body></html>
