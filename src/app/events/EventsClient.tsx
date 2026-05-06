@@ -26,9 +26,9 @@ type Event = {
   location: string;
   price: string;
   start_time: string;
-  end_time: string | null;
-  max_seats: number | null;
-  registration_link: string | null;
+  end_time?: string | null;
+  max_seats?: number | null;
+  registration_link?: string | null;
 };
 
 export default function EventsClient({ events }: { events: Event[] }) {
