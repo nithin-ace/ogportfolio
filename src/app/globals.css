@@ -269,12 +269,30 @@
 }
 
 /* ── Responsive ──────────────────────────────────── */
+@media (max-width: 1024px) {
+  :root {
+    --section-gap: 80px;
+  }
+}
+
 @media (max-width: 768px) {
   :root {
-    --section-gap: 64px;
+    --section-gap: 60px;
+    --nav-h: 60px;
   }
   .btn-primary, .btn-outline {
-    padding: 14px 24px;
-    font-size: 0.9rem;
+    padding: 12px 20px;
+    font-size: 0.85rem;
   }
+  .card {
+    padding: 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --section-gap: 48px;
+  }
+  h1 { font-size: 1.8rem !important; }
+  h2 { font-size: 1.5rem !important; }
 }
