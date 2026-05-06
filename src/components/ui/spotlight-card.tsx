@@ -47,6 +47,9 @@ export function SpotlightCard({
     setOpacity(0);
   };
 
+  // Separate className and children from the rest of the props to avoid type conflicts
+  const { className: _className, children: _children, spotlightColor: _color, ...rest } = props;
+
   return (
     <motion.div
       ref={divRef}
@@ -58,7 +61,7 @@ export function SpotlightCard({
       whileHover={{ y: -4, boxShadow: "0 12px 40px rgba(0,0,0,0.08)" }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       className={`relative overflow-hidden card ${className}`}
-      {...props}
+      {...(rest as any)}
     >
       <div
         className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
