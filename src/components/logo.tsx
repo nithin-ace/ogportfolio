@@ -2,13 +2,27 @@ import Image from "next/image";
 
 export function Logo() {
   return (
-    <Image
-      src="/WhatsApp Image 2026-04-12 at 9.08.37 PM.svg"
-      alt="PODEVS Logo"
-      width={110}
-      height={44}
-      priority
-      style={{ objectFit: "contain", height: 44, width: "auto", mixBlendMode: "screen" }}
-    />
+    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      <Image
+        src="/logo.svg"
+        alt="PODEVS Logo"
+        width={44}
+        height={44}
+        priority
+        className="logo-glow"
+        style={{ objectFit: "contain", height: 38, width: 38 }}
+      />
+      <span
+        style={{
+          fontSize: "1.3rem",
+          fontWeight: 800,
+          letterSpacing: "0.03em",
+          color: "var(--text)",
+          lineHeight: 1,
+        }}
+      >
+        <span style={{ color: "var(--orange)" }}>P</span>ODEVS
+      </span>
+    </div>
   );
 }

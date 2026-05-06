@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   return (
-    <div className="fade-up" ref={(el) => { if (!el) return; const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add("visible"); o.disconnect(); } }, { threshold: 0.1 }); o.observe(el); }} style={{ transitionDelay: `${delay}s` }}>
+    <div className="fade-up" ref={(el) => { if (!el) return; const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add("visible"); o.disconnect(); } }, { threshold: 0.1 }); o.observe(el); }} style={{ transitionDelay: `${delay}s`, height: "100%" }}>
       {children}
     </div>
   );
@@ -41,14 +42,14 @@ export default function AboutPage() {
       {/* 2×2 grid */}
       <section style={{ padding: "0 0 96px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 2 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
             {cards.map((c, i) => (
               <FadeUp key={c.title} delay={i * 0.08}>
-                <div style={{ padding: "44px 36px", background: c.alt ? "rgba(255,138,0,0.03)" : "var(--card)", border: "1px solid var(--border)" }}>
-                  <div style={{ fontSize: "2rem", marginBottom: 18 }}>{c.icon}</div>
-                  <h3 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: 12 }}>{c.title}</h3>
-                  <p style={{ color: "var(--muted)", lineHeight: 1.7, fontSize: "0.9rem" }}>{c.body}</p>
-                </div>
+                <SpotlightCard style={{ padding: "44px 36px", height: "100%", display: "flex", flexDirection: "column", background: c.alt ? "rgba(255,138,0,0.03)" : "var(--card)" }}>
+                  <div style={{ fontSize: "2rem", marginBottom: 24 }}>{c.icon}</div>
+                  <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: 14 }}>{c.title}</h3>
+                  <p style={{ color: "var(--muted)", lineHeight: 1.7, fontSize: "0.95rem" }}>{c.body}</p>
+                </SpotlightCard>
               </FadeUp>
             ))}
           </div>

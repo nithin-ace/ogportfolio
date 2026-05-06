@@ -2,8 +2,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { PageLoader } from "@/components/page-loader";
+
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import * as React from "react";
+import { Suspense } from "react";
+
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
@@ -18,6 +23,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <body className="min-h-screen flex flex-col antialiased">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+
+          <Suspense fallback={null}>
+            <PageLoader />
+          </Suspense>
           <Navbar />
           <main className="flex-1 flex flex-col">{children}</main>
           <Footer />

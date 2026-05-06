@@ -1,20 +1,52 @@
 "use client";
 import Link from "next/link";
-import { ArrowRight, Calendar } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Calendar, BookOpen, Users, TrendingUp, Check, Star, Zap, Target, Award } from "lucide-react";
 import { Marquee } from "@/components/marquee";
-import { useEffect } from "react";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
+import { motion, useScroll, useTransform } from "framer-motion";
+import * as React from "react";
 
+/* ── Animation Helpers ─────────────────────────── */
+const fadeUp = { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0 } };
+const stagger = { visible: { transition: { staggerChildren: 0.1 } } };
+
+function Section({ children, className = "", ...props }: React.ComponentProps<typeof motion.section>) {
+  return (
+    <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }} variants={stagger} className={className} {...props}>
+      {children}
+    </motion.section>
+  );
+}
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  return <motion.div variants={fadeUp} transition={{ duration: 0.5, delay, ease: [0.25, 0.1, 0.25, 1] }} style={{ height: "100%" }}>{children}</motion.div>;
+}
+
+/* ── Data ──────────────────────────────────────── */
 const stats = [
-  { num: "2K+", label: "Members" },
+  { num: "2K+", label: "Active Members" },
   { num: "50+", label: "Free Workshops" },
-  { num: "20+", label: "Events Run" },
+  { num: "20+", label: "Events Hosted" },
   { num: "100%", label: "Student-Friendly" },
 ];
 
 const pillars = [
-  { icon: "📚", title: "Learning", body: "Free workshops, structured YouTube content, and curated resources so every student can upskill without financial barriers.", href: "/what-we-do" },
-  { icon: "🤝", title: "Community", body: "Events, hackathons, and meetups that connect you with peers, mentors, and opportunities you won't find in a classroom.", href: "/events" },
-  { icon: "🚀", title: "Services", body: "Affordable website creation, deployment, and hosting services so you can launch your ideas without a hefty price tag.", href: "/services" },
+  { icon: <BookOpen size={24} />, title: "Learn", body: "Free workshops, structured YouTube content, and curated roadmaps so every student can upskill — zero cost, zero barriers.", href: "/what-we-do", color: "rgba(255,138,0,0.1)" },
+  { icon: <Users size={24} />, title: "Community", body: "Join hackathons, meetups, and events that connect you with peers, mentors, and real-world opportunities.", href: "/events", color: "rgba(255,194,71,0.1)" },
+  { icon: <TrendingUp size={24} />, title: "Growth", body: "Affordable web services, deployment & hosting so you can launch your ideas and build a real portfolio.", href: "/services", color: "rgba(255,138,0,0.08)" },
+];
+
+const benefits = [
+  { icon: <Zap size={20} />, title: "100% Free to Start", desc: "No paywalls. No hidden costs. Just pure learning." },
+  { icon: <Target size={20} />, title: "Project-Based Learning", desc: "Build real projects, not just watch tutorials." },
+  { icon: <Users size={20} />, title: "Peer Community", desc: "Collaborate with 2,000+ driven students." },
+  { icon: <Award size={20} />, title: "Industry-Ready Skills", desc: "Learn what companies actually hire for." },
+];
+
+const testimonials = [
+  { name: "Arjun R.", role: "CS Student, VIT", text: "PODEVS changed my perspective on learning. The workshops are practical and the community is incredibly supportive.", avatar: "AR" },
+  { name: "Sneha M.", role: "Full-Stack Dev", text: "I went from zero coding experience to deploying my first app in 3 weeks. The roadmaps here are gold.", avatar: "SM" },
+  { name: "Karthik S.", role: "Open Source Contributor", text: "The hackathons pushed me out of my comfort zone. I landed my first internship thanks to the portfolio I built here.", avatar: "KS" },
 ];
 
 const events = [
@@ -29,170 +61,295 @@ const videos = [
   { id: "FTQbiNvZqaY", title: "Deploy Your First App on Vercel", views: "5.2K views · 2 months ago" },
 ];
 
-function FadeUp({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
-  return (
-    <div
-      className={`fade-up ${className}`}
-      ref={(el) => {
-        if (!el) return;
-        const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add("visible"); obs.disconnect(); } }, { threshold: 0.1 });
-        obs.observe(el);
-      }}
-      style={{ transitionDelay: `${delay}s` }}
-    >
-      {children}
-    </div>
-  );
-}
-
-import * as React from "react";
-
+/* ── Page ──────────────────────────────────────── */
 export default function HomePage() {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
 
-      {/* ── Hero ───────────────────────────────────────── */}
-      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", paddingTop: "var(--nav-h)", paddingBottom: 80 }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", width: "100%" }}>
-          <div style={{ maxWidth: 760 }}>
-            <span className="section-label" style={{ marginBottom: 24 }}>Student-First EdTech Platform</span>
-            <h1 style={{ fontSize: "clamp(2.8rem, 6vw, 5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em", marginBottom: 20 }}>
-              Where Students<br />Learn, Build,<br />and Launch.
-            </h1>
-            <p style={{ fontSize: "1.1rem", color: "var(--muted)", lineHeight: 1.7, maxWidth: 520, marginBottom: 36 }}>
-              PODEVS is your community to grow — through workshops, events, hackathons, and affordable services built for the next generation of builders.
-            </p>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <Link href="/join" className="btn-primary">Join the Community <ArrowRight size={15} /></Link>
-              <Link href="/events" className="btn-outline">Explore Events</Link>
-            </div>
+      {/* ── HERO ─────────────────────────────────────── */}
+      <section style={{ paddingTop: "calc(var(--nav-h) + 32px)", paddingBottom: 80, position: "relative", overflow: "hidden" }}>
+        {/* Background Effects */}
+        <div className="mesh-gradient" />
+        <div className="bg-noise" />
+        <div className="hero-gradient" />
+        
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", textAlign: "left", position: "relative", zIndex: 1 }}>
+          <div style={{ maxWidth: 720 }}>
+            <motion.span className="section-label" style={{ marginBottom: 24, justifyContent: "flex-start" }} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+              Student-First EdTech Platform
+            </motion.span>
+            <motion.h1
+              style={{ fontSize: "clamp(2.6rem, 5.5vw, 4.5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.03em", marginBottom: 24 }}
+              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Learn Skills.<br />Build Projects.<br />
+              <span style={{ background: "linear-gradient(135deg, var(--orange), var(--gold))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Earn Confidence.</span>
+            </motion.h1>
+            <motion.p
+              style={{ fontSize: "1.1rem", color: "var(--muted)", lineHeight: 1.75, maxWidth: 520, marginBottom: 40 }}
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.25 }}
+            >
+              PODEVS is the community where students learn in-demand skills, build real projects, and grow into confident developers — completely free to start.
+            </motion.p>
+            <motion.div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "flex-start" }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.35 }}>
+              <Link href="/join" className="btn-primary">Start Learning <ArrowRight size={15} /></Link>
+              <Link href="/events" className="btn-outline">Join Community</Link>
+            </motion.div>
             {/* Stats */}
-            <div style={{ display: "flex", gap: 40, marginTop: 56, flexWrap: "wrap", paddingTop: 40, borderTop: "1px solid var(--border)" }}>
-              {stats.map((s) => (
-                <div key={s.num}>
-                  <p style={{ fontSize: "1.9rem", fontWeight: 800, color: "var(--orange)", lineHeight: 1 }}>{s.num}</p>
-                  <p style={{ fontSize: "0.8rem", color: "var(--muted)", marginTop: 4 }}>{s.label}</p>
-                </div>
+            <motion.div
+              style={{ display: "flex", gap: 40, marginTop: 64, flexWrap: "wrap", paddingTop: 40, borderTop: "1px solid var(--border)" }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              {stats.map((s, i) => (
+                <motion.div key={s.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 + i * 0.08 }}>
+                  <p style={{ fontSize: "2rem", fontWeight: 800, color: "var(--orange)", lineHeight: 1 }}>{s.num}</p>
+                  <p style={{ fontSize: "0.78rem", color: "var(--muted)", marginTop: 6, letterSpacing: "0.02em" }}>{s.label}</p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <Marquee />
+
+      {/* ── WHAT WE DO (Pillars) ─────────────────── */}
+      <Section style={{ padding: "var(--section-gap) 0" }} className="section-glow">
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <Reveal><span className="section-label" style={{ justifyContent: "center" }}>What We Do</span></Reveal>
+            <Reveal delay={0.05}><h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 14 }}>Everything You Need to Grow</h2></Reveal>
+            <Reveal delay={0.1}><p style={{ color: "var(--muted)", fontSize: "1rem", maxWidth: 480, margin: "0 auto", lineHeight: 1.7 }}>Three pillars designed to take you from curious beginner to confident builder.</p></Reveal>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+            {pillars.map((p, i) => (
+              <Reveal key={p.title} delay={i * 0.08}>
+                <SpotlightCard style={{ padding: "36px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 18 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 12, background: p.color, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--orange)" }}>{p.icon}</div>
+                  <h3 style={{ fontSize: "1.2rem", fontWeight: 700 }}>{p.title}</h3>
+                  <p style={{ color: "var(--muted)", fontSize: "0.9rem", lineHeight: 1.7, flex: 1 }}>{p.body}</p>
+                  <Link href={p.href} style={{ color: "var(--orange)", fontSize: "0.85rem", fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6 }}>
+                    Explore <ArrowRight size={13} />
+                  </Link>
+                </SpotlightCard>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      <div className="section-divider" />
+
+      {/* ── WHY CHOOSE PODEVS ────────────────────── */}
+      <Section style={{ padding: "var(--section-gap) 0" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }} className="grid-cols-1 md:grid-cols-2">
+            <div>
+              <Reveal><span className="section-label">Why PODEVS</span></Reveal>
+              <Reveal delay={0.05}><h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.4rem)", fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 14 }}>Built Different.<br />Built for Students.</h2></Reveal>
+              <Reveal delay={0.1}><p style={{ color: "var(--muted)", fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 32, maxWidth: 440 }}>Unlike traditional courses, PODEVS focuses on real outcomes — projects you can show, skills you can use, and a network that supports you.</p></Reveal>
+              <Reveal delay={0.15}>
+                <Link href="/about" className="btn-primary" style={{ fontSize: "0.85rem" }}>Learn More <ArrowRight size={14} /></Link>
+              </Reveal>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              {benefits.map((b, i) => (
+                <Reveal key={b.title} delay={i * 0.07}>
+                  <SpotlightCard style={{ padding: "24px 20px", display: "flex", flexDirection: "column", gap: 12 }}>
+                    <div style={{ width: 40, height: 40, borderRadius: 10, background: "rgba(255,138,0,0.08)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--orange)" }}>{b.icon}</div>
+                    <h4 style={{ fontSize: "0.9rem", fontWeight: 700 }}>{b.title}</h4>
+                    <p style={{ fontSize: "0.8rem", color: "var(--muted)", lineHeight: 1.6 }}>{b.desc}</p>
+                  </SpotlightCard>
+                </Reveal>
               ))}
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* ── Marquee ────────────────────────────────────── */}
-      <Marquee />
+      <div className="section-divider" />
 
-      {/* ── Pillars ────────────────────────────────────── */}
-      <section style={{ padding: "96px 0" }}>
+      {/* ── TESTIMONIALS / SOCIAL PROOF ──────────── */}
+      <Section style={{ padding: "var(--section-gap) 0" }} className="section-glow">
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <span className="section-label" style={{ justifyContent: "center" }}>What We Stand For</span>
-            <h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 12 }}>Three Pillars of PODEVS</h2>
-            <p style={{ color: "var(--muted)", fontSize: "1rem", maxWidth: 500, margin: "0 auto" }}>Everything we do is built around learning, community, and creating opportunities for students.</p>
+            <Reveal><span className="section-label" style={{ justifyContent: "center" }}>Social Proof</span></Reveal>
+            <Reveal delay={0.05}><h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.4rem)", fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 14 }}>Loved by Students Everywhere</h2></Reveal>
+            <Reveal delay={0.1}><p style={{ color: "var(--muted)", fontSize: "1rem", maxWidth: 460, margin: "0 auto", lineHeight: 1.7 }}>Hear from real members who've transformed their skills with PODEVS.</p></Reveal>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
-            {pillars.map((p, i) => (
-              <FadeUp key={p.title} delay={i * 0.08}>
-                <div className="card" style={{ padding: "32px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 16 }}>
-                  <div style={{ fontSize: 32 }}>{p.icon}</div>
-                  <h3 style={{ fontSize: "1.2rem", fontWeight: 700 }}>{p.title}</h3>
-                  <p style={{ color: "var(--muted)", fontSize: "0.9rem", lineHeight: 1.7, flex: 1 }}>{p.body}</p>
-                  <Link href={p.href} style={{ color: "var(--orange)", fontSize: "0.85rem", fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 4 }}>
-                    Explore <ArrowRight size={13} />
-                  </Link>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Events Preview ─────────────────────────────── */}
-      <section style={{ padding: "0 0 96px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12, marginBottom: 32 }}>
-            <div>
-              <span className="section-label">Upcoming</span>
-              <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 700, letterSpacing: "-0.02em" }}>Events & Hackathons</h2>
-            </div>
-            <Link href="/events" className="btn-outline" style={{ fontSize: "0.8rem", padding: "7px 16px" }}>View All →</Link>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
-            {events.map((ev, i) => (
-              <FadeUp key={ev.title} delay={i * 0.07}>
-                <div className="card" style={{ padding: 24, display: "flex", flexDirection: "column", gap: 14 }}>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div style={{ width: 48, height: 48, borderRadius: 10, background: "rgba(255,138,0,0.08)", border: "1px solid rgba(255,138,0,0.2)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                      <span style={{ fontWeight: 800, fontSize: "1.1rem", color: "var(--orange)", lineHeight: 1 }}>{ev.day}</span>
-                      <span style={{ fontSize: 9, color: "var(--orange)", fontFamily: "monospace", letterSpacing: "0.05em" }}>{ev.mo}</span>
+            {testimonials.map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.08}>
+                <SpotlightCard style={{ padding: "32px 28px", display: "flex", flexDirection: "column", gap: 20 }}>
+                  <div style={{ display: "flex", gap: 4 }}>{[...Array(5)].map((_, j) => <Star key={j} size={14} fill="var(--orange)" stroke="var(--orange)" />)}</div>
+                  <p style={{ color: "var(--muted)", fontSize: "0.9rem", lineHeight: 1.75, flex: 1, fontStyle: "italic" }}>"{t.text}"</p>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
+                    <div style={{ width: 40, height: 40, borderRadius: "50%", background: "linear-gradient(135deg, var(--orange), var(--gold))", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "0.75rem", fontWeight: 700 }}>{t.avatar}</div>
+                    <div>
+                      <p style={{ fontSize: "0.85rem", fontWeight: 600 }}>{t.name}</p>
+                      <p style={{ fontSize: "0.75rem", color: "var(--muted)" }}>{t.role}</p>
                     </div>
-                    <span className="tag">{ev.type}</span>
                   </div>
-                  <h3 style={{ fontWeight: 600, fontSize: "0.975rem", lineHeight: 1.35 }}>{ev.title}</h3>
-                  <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-                    <span style={{ fontSize: "0.8rem", color: "var(--muted)", display: "flex", alignItems: "center", gap: 4 }}><Calendar size={12} />{ev.time}</span>
-                    <span style={{ fontSize: "0.8rem", color: "var(--muted)" }}>📍 {ev.location}</span>
-                    <span style={{ fontSize: "0.8rem", color: "var(--muted)" }}>🎟 {ev.price}</span>
-                  </div>
-                  <Link href="/events" className="btn-primary" style={{ fontSize: "0.8rem", padding: "8px 16px", alignSelf: "flex-start" }}>Register</Link>
-                </div>
-              </FadeUp>
+                </SpotlightCard>
+              </Reveal>
             ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* ── YouTube Preview ────────────────────────────── */}
-      <section style={{ padding: "0 0 96px" }}>
+      <div className="section-divider" />
+
+      {/* ── FEATURE HIGHLIGHT (Skill Roadmap) ───────── */}
+      <Section style={{ padding: "var(--section-gap) 0" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12, marginBottom: 32 }}>
-            <div>
-              <span className="section-label">On YouTube</span>
-              <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 700, letterSpacing: "-0.02em" }}>Latest Videos</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }} className="grid-cols-1 lg:grid-cols-2">
+            <div style={{ order: 2 }} className="lg:order-1">
+              <Reveal>
+                <div style={{ position: "relative", padding: "40px", background: "var(--bg2)", borderRadius: "var(--radius)", border: "1px solid var(--border)", boxShadow: "0 20px 40px rgba(0,0,0,0.05)" }}>
+                  <div style={{ position: "absolute", top: -20, right: -20, width: 100, height: 100, background: "radial-gradient(circle, rgba(255,138,0,0.15) 0%, transparent 70%)" }} />
+                  <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                    {[
+                      { step: 1, title: "Fundamentals", desc: "HTML, CSS, JavaScript basics." },
+                      { step: 2, title: "Modern Frameworks", desc: "React.js & Next.js mastery." },
+                      { step: 3, title: "Backend & DBs", desc: "Node, Express, and Supabase." },
+                      { step: 4, title: "Launch", desc: "Deploy on Vercel, share with the world." }
+                    ].map((item, i) => (
+                      <div key={item.step} style={{ display: "flex", gap: 16 }}>
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                          <div style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--orange)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: "0.9rem", zIndex: 1, flexShrink: 0 }}>{item.step}</div>
+                          {i !== 3 && <div style={{ width: 2, height: "100%", minHeight: 24, background: "var(--border)" }} />}
+                        </div>
+                        <div style={{ paddingTop: 4, paddingBottom: i !== 3 ? 16 : 0 }}>
+                          <h4 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: 4 }}>{item.title}</h4>
+                          <p style={{ color: "var(--muted)", fontSize: "0.85rem" }}>{item.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
             </div>
-            <Link href="/media" className="btn-outline" style={{ fontSize: "0.8rem", padding: "7px 16px" }}>View All →</Link>
+            <div style={{ order: 1 }} className="lg:order-2">
+              <Reveal><span className="section-label">Skill Roadmaps</span></Reveal>
+              <Reveal delay={0.05}><h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.4rem)", fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 14 }}>A Clear Path to Proficiency</h2></Reveal>
+              <Reveal delay={0.1}><p style={{ color: "var(--muted)", fontSize: "0.95rem", lineHeight: 1.75, marginBottom: 32, maxWidth: 440 }}>Stop wondering what to learn next. Our curated roadmaps guide you step-by-step from beginner to full-stack developer.</p></Reveal>
+              <Reveal delay={0.15}>
+                <Link href="/what-we-do" className="btn-primary" style={{ fontSize: "0.85rem" }}>Explore Roadmaps <ArrowRight size={14} /></Link>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <div className="section-divider" />
+
+      {/* ── EVENTS PREVIEW ───────────────────────── */}
+      <Section style={{ padding: "var(--section-gap) 0" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12, marginBottom: 36 }}>
+            <div>
+              <Reveal><span className="section-label">Upcoming</span></Reveal>
+              <Reveal delay={0.05}><h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 700, letterSpacing: "-0.02em" }}>Events & Hackathons</h2></Reveal>
+            </div>
+            <Reveal><Link href="/events" className="btn-outline" style={{ fontSize: "0.8rem", padding: "8px 18px" }}>View All →</Link></Reveal>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px" }}>
+            {events.map((ev, i) => (
+              <Reveal key={ev.title} delay={i * 0.07}>
+                <SpotlightCard style={{ padding: "28px", display: "flex", flexDirection: "column", height: "100%" }}>
+                  {/* 1. Header: Date & Tag */}
+                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "28px" }}>
+                    <div style={{ width: 52, height: 52, borderRadius: 12, background: "rgba(255,138,0,0.08)", border: "1px solid rgba(255,138,0,0.18)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <span style={{ fontWeight: 800, fontSize: "1.1rem", color: "var(--orange)", lineHeight: 1 }}>{ev.day}</span>
+                      <span style={{ fontSize: 9, color: "var(--orange)", fontFamily: "monospace", letterSpacing: "0.05em", marginTop: 2 }}>{ev.mo}</span>
+                    </div>
+                    <span className="tag" style={{ marginTop: 2 }}>{ev.type}</span>
+                  </div>
+                  
+                  {/* 2. Content: Title */}
+                  <div style={{ marginBottom: "20px" }}>
+                    <h3 style={{ fontWeight: 600, fontSize: "1rem", lineHeight: 1.4 }}>{ev.title}</h3>
+                  </div>
+
+                  {/* 3. Meta Info: Icons */}
+                  <div style={{ display: "flex", columnGap: 16, rowGap: 8, flexWrap: "wrap", marginBottom: "28px" }}>
+                    <span style={{ fontSize: "0.8rem", color: "var(--muted)", display: "flex", alignItems: "center", gap: 4 }}><Calendar size={12} />{ev.time}</span>
+                    <span style={{ fontSize: "0.8rem", color: "var(--muted)", display: "flex", alignItems: "center", gap: 4 }}>📍 {ev.location}</span>
+                    <span style={{ fontSize: "0.8rem", color: "var(--muted)", display: "flex", alignItems: "center", gap: 4 }}>🎟 {ev.price}</span>
+                  </div>
+
+                  {/* 4. Button: Pinned to bottom */}
+                  <div style={{ marginTop: "auto" }}>
+                    <Link href="/events" className="btn-primary" style={{ width: "100%", justifyContent: "center", fontSize: "0.85rem", padding: "12px 18px", borderRadius: "10px" }}>Register</Link>
+                  </div>
+                </SpotlightCard>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      <div className="section-divider" />
+
+      {/* ── YOUTUBE PREVIEW ──────────────────────── */}
+      <Section style={{ padding: "var(--section-gap) 0" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12, marginBottom: 36 }}>
+            <div>
+              <Reveal><span className="section-label">On YouTube</span></Reveal>
+              <Reveal delay={0.05}><h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 700, letterSpacing: "-0.02em" }}>Latest Videos</h2></Reveal>
+            </div>
+            <Reveal><Link href="/media" className="btn-outline" style={{ fontSize: "0.8rem", padding: "8px 18px" }}>View All →</Link></Reveal>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
             {videos.map((v, i) => (
-              <FadeUp key={v.id} delay={i * 0.07}>
-                <div className="card" style={{ overflow: "hidden" }}>
+              <Reveal key={v.id} delay={i * 0.07}>
+                <SpotlightCard style={{ overflow: "hidden" }}>
                   <div style={{ position: "relative", aspectRatio: "16/9", background: "var(--bg2)", overflow: "hidden" }}>
-                    <img src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`} alt={v.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    <Image src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`} alt={v.title} fill sizes="(max-width: 768px) 100vw, 33vw" style={{ objectFit: "cover", transition: "transform 0.4s ease" }} />
                     <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }}>
-                      <div style={{ width: 44, height: 44, borderRadius: "50%", background: "var(--orange)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <div style={{ width: 48, height: 48, borderRadius: "50%", background: "var(--orange)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 20px rgba(255,138,0,0.3)" }}>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2.5l10 5.5-10 5.5V2.5z" fill="#fff" /></svg>
                       </div>
                     </div>
                   </div>
-                  <div style={{ padding: "14px 16px" }}>
-                    <p style={{ fontWeight: 500, fontSize: "0.9rem", marginBottom: 6 }}>{v.title}</p>
+                  <div style={{ padding: "16px 18px" }}>
+                    <p style={{ fontWeight: 600, fontSize: "0.9rem", marginBottom: 6 }}>{v.title}</p>
                     <p style={{ fontSize: "0.78rem", color: "var(--muted)" }}>{v.views}</p>
                   </div>
-                </div>
-              </FadeUp>
+                </SpotlightCard>
+              </Reveal>
             ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* ── CTA ────────────────────────────────────────── */}
-      <section style={{ padding: "0 24px 96px" }}>
+      {/* ── FINAL CTA ────────────────────────────── */}
+      <Section style={{ padding: "0 24px var(--section-gap)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div className="card-static" style={{ padding: "72px 48px", textAlign: "center" }}>
-            <span className="tag" style={{ marginBottom: 20 }}>The Smile of Education</span>
-            <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: 14, marginTop: 12 }}>
-              Ready to Start Your Builder Journey?
-            </h2>
-            <p style={{ color: "var(--muted)", fontSize: "1rem", marginBottom: 32, maxWidth: 440, margin: "0 auto 32px" }}>
-              Join 2,000+ students already learning, building, and launching with PODEVS — completely free to start.
-            </p>
-            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/join" className="btn-primary">Join Free Today <ArrowRight size={15} /></Link>
-              <Link href="/about" className="btn-outline">Learn About Us</Link>
-            </div>
-          </div>
+          <Reveal>
+            <motion.div
+              className="card-static"
+              style={{ padding: "80px 48px", textAlign: "center", position: "relative", overflow: "hidden" }}
+            >
+              <div style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 0%, rgba(255,138,0,0.06) 0%, transparent 60%)", pointerEvents: "none" }} />
+              <div style={{ position: "relative", zIndex: 1 }}>
+                <span className="tag" style={{ marginBottom: 20 }}>The Smile of Education</span>
+                <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: 16, marginTop: 16 }}>
+                  Ready to Start Your Builder Journey?
+                </h2>
+                <p style={{ color: "var(--muted)", fontSize: "1rem", marginBottom: 36, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>
+                  Join 2,000+ students already learning, building, and launching with PODEVS — completely free to start.
+                </p>
+                <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+                  <Link href="/join" className="btn-primary">Join Free Today <ArrowRight size={15} /></Link>
+                  <Link href="/about" className="btn-outline">Learn About Us</Link>
+                </div>
+              </div>
+            </motion.div>
+          </Reveal>
         </div>
-      </section>
+      </Section>
     </div>
   );
 }
