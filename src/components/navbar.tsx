@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import * as React from "react";
 import { Menu, X, User, LogOut } from "lucide-react";
 import { Logo } from "@/components/logo";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
@@ -79,23 +78,46 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <nav style={{ display: "flex", alignItems: "center", gap: 4 }} className="hidden md:flex">
-            {navLinks.map((l) => (
-              <Link key={l.href} href={l.href} style={{
-                padding: "7px 16px", borderRadius: 8, fontSize: "0.85rem", fontWeight: 500,
-                color: pathname === l.href ? "var(--text)" : "var(--muted)",
-                background: pathname === l.href ? "var(--bg2)" : "transparent",
-                transition: "color var(--trans), background var(--trans)",
-              }}
-                className="hover:text-[var(--text)] hover:bg-[var(--bg2)]"
-              >{l.label}</Link>
-            ))}
+          <nav style={{ display: "flex", alignItems: "center", gap: 8 }} className="hidden md:flex">
+            {navLinks.map((l) => {
+              const isActive = pathname === l.href;
+              return (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  style={{
+                    padding: "8px 12px",
+                    fontSize: "0.85rem",
+                    fontWeight: 500,
+                    color: isActive ? "var(--text)" : "var(--muted)",
+                    position: "relative",
+                    transition: "color var(--trans)",
+                  }}
+                  className="hover:text-[var(--text)]"
+                >
+                  {l.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-underline"
+                      style={{
+                        position: "absolute",
+                        bottom: -2,
+                        left: "10%",
+                        right: "10%",
+                        height: "2px",
+                        background: "var(--orange)",
+                        borderRadius: "2px",
+                      }}
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Actions */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <ThemeToggle />
-            
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             {user ? (
               <div className="hidden md:flex items-center gap-2">
                 <div style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--bg2)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
@@ -110,7 +132,7 @@ export default function Navbar() {
                 </button>
               </div>
             ) : pathname !== "/join" ? (
-              <Link href="/join" className="btn-primary hidden md:inline-flex" style={{ borderRadius: 8, padding: "8px 20px", fontSize: "0.8rem" }}>Join Free</Link>
+              <Link href="/join" className="btn-primary hidden md:inline-flex" style={{ borderRadius: 8, padding: "10px 24px", fontSize: "0.85rem", fontWeight: 600 }}>Get Started</Link>
             ) : null}
 
             <button onClick={() => setOpen(!open)} className="flex md:hidden" style={{ width: 36, height: 36, borderRadius: 8, border: "1px solid var(--border)", background: "transparent", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text)" }}>

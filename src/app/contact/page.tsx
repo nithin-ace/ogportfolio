@@ -1,11 +1,11 @@
 "use client";
-import { Send } from "lucide-react";
 import * as React from "react";
+import { Mail, MapPin, Clock, Send } from "lucide-react";
 
 const contactInfo = [
-  { icon: "📧", label: "Email", value: "hello@podevs.com" },
-  { icon: "📍", label: "Location", value: "Chennai, Tamil Nadu" },
-  { icon: "⏰", label: "Response Time", value: "Within 24–48 hours" },
+  { icon: <Mail size={18} />, label: "Email", value: "hello@podevs.com" },
+  { icon: <MapPin size={18} />, label: "Location", value: "Chennai, Tamil Nadu" },
+  { icon: <Clock size={18} />, label: "Response Time", value: "Within 24–48 hours" },
 ];
 
 const socials = ["Twitter", "LinkedIn", "YouTube", "Discord", "Instagram"];
@@ -35,7 +35,20 @@ export default function ContactPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 36 }}>
                 {contactInfo.map((c) => (
                   <div key={c.label} className="card-static" style={{ padding: "16px 18px", display: "flex", alignItems: "center", gap: 14 }}>
-                    <span style={{ fontSize: "1.3rem", flexShrink: 0 }}>{c.icon}</span>
+                    <div style={{ 
+                      width: 36, 
+                      height: 36, 
+                      borderRadius: 8, 
+                      background: "rgba(255, 138, 0, 0.08)", 
+                      border: "1px solid rgba(255, 138, 0, 0.15)",
+                      display: "flex", 
+                      alignItems: "center", 
+                      justifyContent: "center", 
+                      color: "var(--orange)",
+                      flexShrink: 0
+                    }}>
+                      {c.icon}
+                    </div>
                     <div>
                       <p style={{ fontSize: "0.72rem", color: "var(--muted)", marginBottom: 2 }}>{c.label}</p>
                       <p style={{ fontWeight: 600, fontSize: "0.9rem" }}>{c.value}</p>

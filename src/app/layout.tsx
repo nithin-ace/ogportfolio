@@ -22,8 +22,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <body className="min-h-screen flex flex-col antialiased">
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-
+        <ThemeProvider>
           <Suspense fallback={null}>
             <PageLoader />
           </Suspense>

@@ -46,8 +46,6 @@ export default function JoinPage() {
   return (
     <div style={{ minHeight: "100vh", display: "flex", position: "relative", overflow: "hidden" }}>
       {/* Background Effects */}
-      <div className="mesh-gradient" />
-      <div className="bg-noise" />
       
       <div style={{ width: "100%", display: "flex", flexDirection: "column", paddingTop: "calc(var(--nav-h) + 40px)" }}>
         {/* Main Content */}

@@ -47,8 +47,7 @@ export function SpotlightCard({
     setOpacity(0);
   };
 
-  // Separate className and children from the rest of the props to avoid type conflicts
-  const { className: _className, children: _children, spotlightColor: _color, ...rest } = props;
+  const rest = props;
 
   return (
     <motion.div
@@ -58,7 +57,11 @@ export function SpotlightCard({
       onBlur={handleBlur}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      whileHover={{ y: -4, boxShadow: "0 12px 40px rgba(0,0,0,0.08)" }}
+      whileHover={{ 
+        y: -5, 
+        boxShadow: "0 20px 40px rgba(0,0,0,0.12)",
+        borderColor: "rgba(255,138,0,0.3)"
+      }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       className={`relative overflow-hidden card ${className}`}
       {...(rest as any)}
@@ -67,7 +70,10 @@ export function SpotlightCard({
         className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 40%)`,
+          background: `radial-gradient(400px circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 80%)`,
+          border: "1px solid var(--orange)",
+          maskImage: `radial-gradient(300px circle at ${position.x}px ${position.y}px, black, transparent)`,
+          WebkitMaskImage: `radial-gradient(300px circle at ${position.x}px ${position.y}px, black, transparent)`,
         }}
       />
       <div className="relative h-full w-full z-10 flex flex-col">{children}</div>

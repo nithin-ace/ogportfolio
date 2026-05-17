@@ -21,11 +21,13 @@ const plans = [
   },
 ];
 
+import { Cloud, Wrench, Palette, Zap } from "lucide-react";
+
 const addons = [
-  { icon: "☁️", title: "Hosting Plans", body: "Reliable cloud hosting with 99.9% uptime. Starting from ₹199/month for static sites, ₹499/month for dynamic apps." },
-  { icon: "🔧", title: "Maintenance & Updates", body: "Monthly maintenance packages including content updates, bug fixes, and performance optimization." },
-  { icon: "🎨", title: "Design Only (Figma)", body: "Get a professional Figma design for your site or app. You implement, we design. Starting from ₹1,499." },
-  { icon: "⚡", title: "Deployment Setup", body: "We set up CI/CD, configure your domain, and deploy your existing project. One-time fee starting at ₹499." },
+  { icon: <Cloud size={20} />, title: "Hosting Plans", body: "Reliable cloud hosting with 99.9% uptime. Starting from ₹199/month for static sites, ₹499/month for dynamic apps." },
+  { icon: <Wrench size={20} />, title: "Maintenance & Updates", body: "Monthly maintenance packages including content updates, bug fixes, and performance optimization." },
+  { icon: <Palette size={20} />, title: "Design Only (Figma)", body: "Get a professional Figma design for your site or app. You implement, we design. Starting from ₹1,499." },
+  { icon: <Zap size={20} />, title: "Deployment Setup", body: "We set up CI/CD, configure your domain, and deploy your existing project. One-time fee starting at ₹499." },
 ];
 
 export default function ServicesPage() {
@@ -82,7 +84,20 @@ export default function ServicesPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
             {addons.map((a) => (
               <div key={a.title} className="card" style={{ padding: "26px 22px", display: "flex", gap: 18, alignItems: "flex-start" }}>
-                <span style={{ fontSize: "1.6rem", flexShrink: 0 }}>{a.icon}</span>
+                <div style={{ 
+                  width: 40, 
+                  height: 40, 
+                  borderRadius: 10, 
+                  background: "rgba(255, 138, 0, 0.08)", 
+                  border: "1px solid rgba(255, 138, 0, 0.15)",
+                  display: "flex", 
+                  alignItems: "center", 
+                  justifyContent: "center", 
+                  color: "var(--orange)",
+                  flexShrink: 0
+                }}>
+                  {a.icon}
+                </div>
                 <div>
                   <h3 style={{ fontWeight: 700, fontSize: "0.975rem", marginBottom: 8 }}>{a.title}</h3>
                   <p style={{ color: "var(--muted)", fontSize: "0.85rem", lineHeight: 1.65, marginBottom: 14 }}>{a.body}</p>

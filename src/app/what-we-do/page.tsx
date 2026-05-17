@@ -67,8 +67,6 @@ export default function RoadmapsPage() {
     <div style={{ paddingTop: "var(--nav-h)" }}>
       {/* Header Section */}
       <section style={{ padding: "80px 0 60px", position: "relative", overflow: "hidden" }}>
-        <div className="mesh-gradient" />
-        <div className="bg-noise" />
         
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative", zIndex: 1, textAlign: "center" }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>

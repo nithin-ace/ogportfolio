@@ -1,13 +1,13 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Calendar, BookOpen, Users, TrendingUp, Check, Star, Zap, Target, Award } from "lucide-react";
+import { ArrowRight, Users, Code, Calendar, BookOpen, TrendingUp, Zap, Target, Award, Star, Rocket, Briefcase } from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Marquee } from "@/components/marquee";
 import { SpotlightCard } from "@/components/ui/spotlight-card";
-import { motion, useScroll, useTransform } from "framer-motion";
-import * as React from "react";
+import { useEffect } from "react";
+import { useTheme } from "@/components/theme-provider";
 
-/* ── Animation Helpers ─────────────────────────── */
 const fadeUp = { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0 } };
 const stagger = { visible: { transition: { staggerChildren: 0.1 } } };
 
@@ -18,16 +18,16 @@ function Section({ children, className = "", ...props }: React.ComponentProps<ty
     </motion.section>
   );
 }
+
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   return <motion.div variants={fadeUp} transition={{ duration: 0.5, delay, ease: [0.25, 0.1, 0.25, 1] }} style={{ height: "100%" }}>{children}</motion.div>;
 }
 
 /* ── Data ──────────────────────────────────────── */
 const stats = [
-  { num: "2K+", label: "Active Members" },
-  { num: "50+", label: "Free Workshops" },
-  { num: "20+", label: "Events Hosted" },
-  { num: "100%", label: "Student-Friendly" },
+  { icon: <Users size={20} />, value: "2,000+", label: "Students" },
+  { icon: <Code size={20} />, value: "150+", label: "Projects" },
+  { icon: <Calendar size={20} />, value: "12+", label: "Events/Month" },
 ];
 
 const pillars = [
@@ -56,34 +56,125 @@ const events = [
 ];
 
 const videos = [
-  { id: "dQw4w9WgXcQ", title: "Build a Portfolio Website in 60 Minutes", views: "12K views · 3 weeks ago" },
-  { id: "9bZkp7q19f0", title: "React Hooks Explained Simply", views: "8.4K views · 1 month ago" },
-  { id: "FTQbiNvZqaY", title: "Deploy Your First App on Vercel", views: "5.2K views · 2 months ago" },
+  { id: "v1", title: "Introduction to Web Development", views: "12K views · 2 weeks ago" },
+  { id: "v2", title: "React Hooks Explained Simply", views: "8.4K views · 1 month ago" },
+  { id: "v3", title: "Deploy Your First App on Vercel", views: "5.2K views · 2 months ago" },
 ];
 
 /* ── Page ──────────────────────────────────────── */
 export default function HomePage() {
+  const { theme } = useTheme();
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springX = useSpring(mouseX, { stiffness: 40, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 40, damping: 20 });
+
+  const moveX = useTransform(springX, [-1000, 1000], [-40, 40]);
+  const moveY = useTransform(springY, [-1000, 1000], [-30, 30]);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX - window.innerWidth / 2);
+      mouseY.set(e.clientY - window.innerHeight / 2);
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
 
-      {/* ── HERO ─────────────────────────────────────── */}
+      {/* HERO SECTION */}
       <section style={{ paddingTop: "calc(var(--nav-h) + 32px)", paddingBottom: 80, position: "relative", overflow: "hidden" }}>
-        {/* Background Effects */}
-        <div className="mesh-gradient" />
-        <div className="bg-noise" />
         <div className="hero-gradient" />
         
+        {/* Animated Network Background - Dual Layer for Wave + Parallax */}
+        <motion.div 
+          style={{ 
+            position: "absolute", 
+            inset: -60, 
+            zIndex: 0,
+            pointerEvents: "none",
+            mixBlendMode: theme === "dark" ? "screen" : "multiply",
+          }}
+          animate={{ 
+            x: [0, 20, -20, 15, -15, 0],
+            y: [0, -15, 15, -10, 10, 0],
+            rotate: [0, 0.5, -0.5, 0.3, -0.3, 0],
+          }}
+          transition={{ 
+            duration: 25, 
+            repeat: Infinity, 
+            ease: "linear" 
+          }}
+        >
+          <motion.img 
+            key={theme}
+            src={theme === "dark" ? "/images/hero-network.png" : "/images/white.png"}
+            style={{ 
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              opacity: 1,
+              x: moveX,
+              y: moveY,
+              filter: theme === "dark" ? "brightness(1.5) contrast(1.2)" : "contrast(1.05)",
+              mixBlendMode: theme === "dark" ? "color-dodge" : "multiply",
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: theme === "dark" ? [0.8, 1, 0.9, 1, 0.8] : [0.6, 0.8, 0.7, 0.8, 0.6]
+            }}
+            transition={{ 
+              duration: 10, 
+              repeat: Infinity, 
+              ease: "easeInOut" 
+            }}
+          />
+        </motion.div>
+
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", textAlign: "left", position: "relative", zIndex: 1 }}>
           <div style={{ maxWidth: 720 }}>
-            <motion.span className="section-label" style={{ marginBottom: 24, justifyContent: "flex-start" }} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-              Student-First EdTech Platform
-            </motion.span>
+            <motion.div 
+              style={{ 
+                marginBottom: 28, 
+                display: "inline-flex", 
+                alignItems: "center", 
+                gap: 8, 
+                padding: "6px 14px", 
+                borderRadius: 100, 
+                background: "rgba(255, 138, 0, 0.08)", 
+                border: "1px solid rgba(255, 138, 0, 0.2)",
+                backdropFilter: "blur(10px)"
+              }}
+              initial={{ opacity: 0, y: -10 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 0.5 }}
+            >
+              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--orange)", boxShadow: "0 0 8px var(--orange)" }} />
+              <span style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--orange)" }}>
+                Student-First EdTech Platform
+              </span>
+            </motion.div>
+            
             <motion.h1
-              style={{ fontSize: "clamp(2.6rem, 5.5vw, 4.5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.03em", marginBottom: 24 }}
-              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
+              style={{ 
+                fontSize: "clamp(3rem, 7vw, 5rem)", 
+                fontWeight: 900, 
+                lineHeight: 0.95, 
+                letterSpacing: "-0.05em", 
+                marginBottom: 32,
+                color: theme === "dark" ? "#fff" : "#000"
+              }}
+              initial={{ opacity: 0, y: 30 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 0.6, delay: 0.1 }}
             >
               Learn Skills.<br />Build Projects.<br />
-              <span style={{ background: "linear-gradient(135deg, var(--orange), var(--gold))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Earn Confidence.</span>
+              <span style={{ background: "linear-gradient(135deg, var(--orange), #FFC247)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 0 15px rgba(255, 138, 0, 0.15))" }}>
+                Earn Confidence.
+              </span>
             </motion.h1>
             <motion.p
               style={{ fontSize: "1.1rem", color: "var(--muted)", lineHeight: 1.75, maxWidth: 520, marginBottom: 40 }}
@@ -95,16 +186,20 @@ export default function HomePage() {
               <Link href="/join" className="btn-primary">Start Learning <ArrowRight size={15} /></Link>
               <Link href="/events" className="btn-outline">Join Community</Link>
             </motion.div>
+
             {/* Stats */}
             <motion.div
               style={{ display: "flex", gap: 40, marginTop: 64, flexWrap: "wrap", paddingTop: 40, borderTop: "1px solid var(--border)" }}
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.5 }}
             >
               {stats.map((s, i) => (
-                <motion.div key={s.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 + i * 0.08 }}>
-                  <p style={{ fontSize: "2rem", fontWeight: 800, color: "var(--orange)", lineHeight: 1 }}>{s.num}</p>
-                  <p style={{ fontSize: "0.78rem", color: "var(--muted)", marginTop: 6, letterSpacing: "0.02em" }}>{s.label}</p>
-                </motion.div>
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div style={{ color: "var(--orange)" }}>{s.icon}</div>
+                  <div>
+                    <div style={{ fontSize: "1.25rem", fontWeight: 700 }}>{s.value}</div>
+                    <div style={{ fontSize: "0.85rem", color: "var(--muted)" }}>{s.label}</div>
+                  </div>
+                </div>
               ))}
             </motion.div>
           </div>
@@ -113,13 +208,32 @@ export default function HomePage() {
 
       <Marquee />
 
-      {/* ── WHAT WE DO (Pillars) ─────────────────── */}
+      {/* WHAT WE DO SECTION */}
       <Section style={{ padding: "var(--section-gap) 0" }} className="section-glow">
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <Reveal><span className="section-label" style={{ justifyContent: "center" }}>What We Do</span></Reveal>
-            <Reveal delay={0.05}><h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 14 }}>Everything You Need to Grow</h2></Reveal>
-            <Reveal delay={0.1}><p style={{ color: "var(--muted)", fontSize: "1rem", maxWidth: 480, margin: "0 auto", lineHeight: 1.7 }}>Three pillars designed to take you from curious beginner to confident builder.</p></Reveal>
+            <Reveal>
+              <div 
+                style={{ 
+                  marginBottom: 20, 
+                  display: "inline-flex", 
+                  alignItems: "center", 
+                  gap: 8, 
+                  padding: "4px 12px", 
+                  borderRadius: 100, 
+                  background: "rgba(255, 138, 0, 0.05)", 
+                  border: "1px solid rgba(255, 138, 0, 0.15)",
+                  margin: "0 auto"
+                }}
+              >
+                <div style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--orange)" }} />
+                <span style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--orange)" }}>
+                  What We Do
+                </span>
+              </div>
+            </Reveal>
+            <Reveal delay={0.05}><h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 850, letterSpacing: "-0.03em", marginBottom: 16 }}>Everything You Need to Grow</h2></Reveal>
+            <Reveal delay={0.1}><p style={{ color: "var(--muted)", fontSize: "1.05rem", maxWidth: 520, margin: "0 auto", lineHeight: 1.6 }}>Three core pillars designed to take you from a curious beginner to a confident technical builder.</p></Reveal>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
             {pillars.map((p, i) => (

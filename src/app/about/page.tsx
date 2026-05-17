@@ -13,11 +13,13 @@ function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 
 import * as React from "react";
 
+import { Target, Eye, BookText, Heart } from "lucide-react";
+
 const cards = [
-  { icon: "🎯", title: "Our Mission", body: "To democratize tech education for students — offering free workshops, community events, and affordable services so every learner can build and launch their ideas regardless of background or budget." },
-  { icon: "🔭", title: "Our Vision", body: "A world where every student is a creator — where the next generation of builders, designers, and founders get their start through community, not just classrooms.", alt: true },
-  { icon: "📖", title: "Our Story", body: "PODEVS started from a simple frustration: great tech education was either too expensive or too boring. We built the community we wished existed — student-run, community-powered, free to join.", alt: true },
-  { icon: "💛", title: "Our Values", body: "Openness. Warmth. Ambition. We believe learning is a community sport. Every member matters. Every idea deserves a chance. The Smile of Education is not just a tagline — it's our promise." },
+  { icon: <Target size={24} />, title: "Our Mission", body: "To democratize tech education for students — offering free workshops, community events, and affordable services so every learner can build and launch their ideas regardless of background or budget." },
+  { icon: <Eye size={24} />, title: "Our Vision", body: "A world where every student is a creator — where the next generation of builders, designers, and founders get their start through community, not just classrooms." },
+  { icon: <BookText size={24} />, title: "Our Story", body: "PODEVS started from a simple frustration: great tech education was either too expensive or too boring. We built the community we wished existed — student-run, community-powered, free to join." },
+  { icon: <Heart size={24} />, title: "Our Values", body: "Openness. Warmth. Ambition. We believe learning is a community sport. Every member matters. Every idea deserves a chance. The Smile of Education is not just a tagline — it's our promise." },
 ];
 
 const stats = [
@@ -45,10 +47,24 @@ export default function AboutPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
             {cards.map((c, i) => (
               <FadeUp key={c.title} delay={i * 0.08}>
-                <SpotlightCard style={{ padding: "44px 36px", height: "100%", display: "flex", flexDirection: "column", background: c.alt ? "rgba(255,138,0,0.03)" : "var(--card)" }}>
-                  <div style={{ fontSize: "2rem", marginBottom: 24 }}>{c.icon}</div>
-                  <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: 14 }}>{c.title}</h3>
-                  <p style={{ color: "var(--muted)", lineHeight: 1.7, fontSize: "0.95rem" }}>{c.body}</p>
+                <SpotlightCard style={{ padding: "44px 36px", height: "100%", display: "flex", flexDirection: "column" }}>
+                  <div style={{ 
+                    width: 48, 
+                    height: 48, 
+                    borderRadius: 12, 
+                    background: "rgba(255, 138, 0, 0.08)", 
+                    border: "1px solid rgba(255, 138, 0, 0.2)",
+                    display: "flex", 
+                    alignItems: "center", 
+                    justifyContent: "center", 
+                    color: "var(--orange)",
+                    marginBottom: 24,
+                    boxShadow: "0 0 15px rgba(255, 138, 0, 0.1)"
+                  }}>
+                    {c.icon}
+                  </div>
+                  <h3 style={{ fontSize: "1.25rem", fontWeight: 800, marginBottom: 14, color: "#fff" }}>{c.title}</h3>
+                  <p style={{ color: "var(--muted)", lineHeight: 1.7, fontSize: "1rem" }}>{c.body}</p>
                 </SpotlightCard>
               </FadeUp>
             ))}
